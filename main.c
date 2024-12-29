@@ -86,19 +86,32 @@ void	freelist(struct deneme *head)
 void	deletenumber(struct deneme **head)
 {
 	struct deneme *current = *head;
-	struct deneme *temp = current;
-
+	struct deneme *temp = NULL;
+	struct deneme *prev = NULL;
+	
 	while (current != NULL)
 	{
-		if (current->next->age == 30)
+		if (current->age == 30)
 		{
-			temp = current->next;
-			current->next = current->next->next;
-			free(temp);
-			break;
+			if (prev == NULL)
+			{
+				*head = current->next;
+				free(current);
+				current = *head;
+			}
+			else
+			{
+				prev->next = current->next;
+				temp = current;
+				current = current->next;
+				free(temp);
+			}
 		}
 		else
+		{
+			prev = current;
 			current = current->next;
+		}
 	}
 }
 int main()
@@ -107,12 +120,15 @@ int main()
 	char *str = "ali";
 	struct deneme *deneme2;
 	struct deneme *deneme1 = NULL;
-	 
+
+	created(&deneme1, 30, str);
 	created(&deneme1, 50, str);
 	created(&deneme1, 30, str);
 	created(&deneme1, 20, str);
 	created(&deneme1, 60, str);
+	created(&deneme1, 30, str);
 	created(&deneme1, 70, str);
+	created(&deneme1, 30, str);
 
 	deletenumber(&deneme1);
 	printnumber(&deneme1);
