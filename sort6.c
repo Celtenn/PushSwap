@@ -1,34 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "deneme.h"
 
-typedef struct s_node 
+void *push(t_stack *stack, int value) 
 {
-    int value;
-    struct s_node *next;
-} t_node;
-
-t_node *push(t_node *stack, int value) 
-{
-    t_node *new_node = malloc(sizeof(t_node));
+    t_stack *new_node = malloc(sizeof(t_stack));
     if (!new_node)
         return (NULL);
     new_node->value = value;
     new_node->next = stack;
-    return (new_node);
 }
 
-int pop(t_node **stack) 
+int pop(t_stack **stack) 
 {
     if (!(*stack))
         return (-1);
     int value = (*stack)->value;
-    t_node *temp = *stack;
+    t_stack *temp = *stack;
     *stack = (*stack)->next;
     free(temp);
     return (value);
 }
 
-void print_stack(t_node *stack) 
+void print_stack(t_stack *stack) 
 {
     while (stack) 
     {
@@ -37,27 +31,37 @@ void print_stack(t_node *stack)
     }
     printf("\n");
 }
+int stack_size(t_stack *stack) 
+{
+    int count = 0;
+    while (stack) 
+    {
+        count++;
+        stack = stack->next;
+    }
+    return (count);
+}
 
-void radix_sort(t_node **stack_a, t_node **stack_b) 
+void radix_sort(t_stack **stack_a, t_stack **stack_b) 
 {
     int ra_count = 0, pb_count = 0, pa_count = 0;
+	int size = stack_size(*stack_a);
 
-    while (*stack_a) 
+    while (size > 0) 
     {
-        int num = pop(stack_a);
-        *stack_b = push(*stack_b, num);
+        pb(stack_a, stack_b);
         pb_count++;
     }
 
     while (*stack_b) 
     {
         int min_value = pop(stack_b);
-        t_node **current = stack_a;
+        t_stack **current = stack_a;
         while (*current && (*current)->value < min_value) 
         {
             current = &((*current)->next);
         }
-        t_node *new_node = malloc(sizeof(t_node));
+        t_stack *new_node = malloc(sizeof(t_stack));
         new_node->value = min_value;
         new_node->next = *current;
         *current = new_node;
@@ -68,8 +72,8 @@ void radix_sort(t_node **stack_a, t_node **stack_b)
 
 int main() 
 {
-    t_node *stack_a = NULL;
-    t_node *stack_b = NULL;
+    t_stack *stack_a = NULL;
+    t_stack *stack_b = NULL;
 
     int numbers[] = {73, 28, 94, 18, 53, 63, 40, 35, 2, 75, 46, 83, 90, 7, 54, 86, 15, 69, 32, 44,
         99, 6, 88, 51, 41, 78, 23, 61, 4, 22, 95, 11, 9, 84, 67, 71, 37, 8, 29, 97,
@@ -89,4 +93,4 @@ int main()
     printf("\nSirali stack_a: ");
     print_stack(stack_a);
     return 0;
-}
+}	
