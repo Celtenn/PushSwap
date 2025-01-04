@@ -10,10 +10,13 @@ void temporary_sort(t_node *head)
         return;
 
     current = head;
-    while (current != NULL) {
+    while (current != NULL) 
+    {
         next_node = current->next;
-        while (next_node != NULL) {
-            if (current->value > next_node->value) {
+        while (next_node != NULL) 
+        {
+            if (current->value > next_node->value) 
+            {
                 temp = current->value;
                 current->value = next_node->value;
                 next_node->value = temp;
@@ -55,7 +58,8 @@ int sort(t_stack *stack, int size) {
         return 0;
 
     // Yığın A sıralı değilse (küçükten büyüğe sıralama kontrolü)
-    if (check_sorted(stack->a, 0) == 0) {
+    if (check_sorted(stack->a, 0) == 0) 
+    {
         // Yığın A'nın boyutu 2 ise, sadece swap işlemi yapılır
         if (size == 2)
             swap_a(stack, 0);

@@ -47,14 +47,17 @@ int push_swap_strlen(char **av) {
 int check_sorted(t_node *stack, int order) {
     t_node *current = stack;
 
-    if (current == NULL || current->next == NULL) {
+    if (current == NULL || current->next == NULL) 
+	{
         return 1;  // Liste boş ya da sadece bir eleman var, sıralıdır
     }
 
     // Küçükten büyüğe sıralama kontrolü
     if (order == 0) {
-        while (current->next != NULL) {
-            if (current->value > current->next->value) {
+        while (current->next != NULL) 
+		{
+            if (current->value > current->next->value) 
+			{
                 return 0;  // Liste sıralı değil
             }
             current = current->next;

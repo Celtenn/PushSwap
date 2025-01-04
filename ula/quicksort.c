@@ -23,10 +23,14 @@ void quicksort_three_stack_a_and_b(t_stack *stack, int len) {
     }
 }
 
-int sort_three_b(t_stack *stack, int len) {
-    if (len == 1) {
+int sort_three_b(t_stack *stack, int len) 
+{
+    if (len == 1) 
+    {
         push_a(stack, 0);
-    } else if (len == 2) {
+    } 
+    else if (len == 2) 
+    {
         if (stack->b->value < stack->b->next->value)
             swap_b(stack, 0);
         while (len--)
@@ -34,12 +38,16 @@ int sort_three_b(t_stack *stack, int len) {
     } else if (len == 3) {
         while (len || !(stack->a->value < stack->a->next->value
                         && stack->a->next->value < stack->a->next->next->value)) {
-            if (len == 1 && stack->a->value > stack->a->next->value) {
+            if (len == 1 && stack->a->value > stack->a->next->value) 
+            {
                 swap_a(stack, 0);
-            } else if (len == 1 || (len >= 2 && stack->b->value > stack->b->next->value)
+            } 
+            else if (len == 1 || (len >= 2 && stack->b->value > stack->b->next->value)
                        || (len == 3 && stack->b->value > stack->b->next->next->value)) {
                 len = ft_push(stack, len, 1);
-            } else {
+            } 
+            else 
+            {
                 swap_b(stack, 0);
             }
         }
@@ -50,36 +58,68 @@ int sort_three_b(t_stack *stack, int len) {
 int mediane_of_numbers(int *pivot, t_node *head, int size)
 {
     t_node *temporaire_stack;
+    t_node *current;
     int i;
 
     if (head == NULL)
         return 0;
 
-    // Bağlı listeyi sıralamak için geçici bir liste oluştur
-    temporaire_stack = head;
+    // Geçici bir liste oluştur
+    temporaire_stack = NULL;
+
+    // Orijinal listenin düğümlerini kopyala
+    current = head;
+    while (current != NULL)
+    {
+        t_node *new_node = malloc(sizeof(t_node));
+        if (!new_node)
+            return 0; // Bellek hatası
+        new_node->value = current->value;
+        new_node->next = temporaire_stack;
+        temporaire_stack = new_node;
+        current = current->next;
+    }
 
     // Bağlı listeyi sıralıyoruz
     temporary_sort(temporaire_stack);
 
     // Ortanca değeri al
-    for (i = 0; i < size / 2; i++)
-        temporaire_stack = temporaire_stack->next;
+    i = 0;
+    current = temporaire_stack;
+    while (i < size / 2)
+    {
+        current = current->next;
+        i++;
+    }
 
-    *pivot = temporaire_stack->value; // Ortanca değeri (pivot) atıyoruz
+    *pivot = current->value; // Ortanca değeri (pivot) atıyoruz
+
+    // Geçici listeyi serbest bırak
+    while (temporaire_stack != NULL)
+    {
+        t_node *next = temporaire_stack->next;
+        free(temporaire_stack);
+        temporaire_stack = next;
+    }
+
     return 1;
 }
 
-int quicksort_stack_a(t_stack *stack, int len, int count_r) {
+
+int quicksort_stack_a(t_stack *stack, int len, int count_r) 
+{
     int pivot;
     int numbers;
 
     // Yığın A sıralı mı? 
-    if (check_sorted(stack->a, 0) == 1) {
+    if (check_sorted(stack->a, 0) == 1) 
+    {
         return 1;
     }
 
     numbers = len;
-    if (len <= 3) {
+    if (len <= 3) 
+    {
         quicksort_three_stack_a_and_b(stack, len);
         return 1;
     }
@@ -88,15 +128,22 @@ int quicksort_stack_a(t_stack *stack, int len, int count_r) {
     if (!mediane_of_numbers(&pivot, stack->a, len))
         return 0;
 
-    while (len != numbers / 2 + numbers % 2) {
-        if (stack->a->value < pivot && (len--)) {
+    while (len != numbers / 2 + numbers % 2) 
+    {
+        if (stack->a->value < pivot) 
+        {
             push_b(stack, 0);
-        } else if (++count_r) {
+            len--;
+        } 
+        else
+        {
             rotate_a(stack, 0);
+            count_r++;
         }
     }
 
-    while (numbers / 2 + numbers % 2 != stack->size_a && count_r--) {
+    while (numbers / 2 + numbers % 2 != stack->size_a && count_r--) 
+    {
         reverse_rotate_a(stack, 0);
     }
 
