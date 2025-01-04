@@ -1,64 +1,61 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "push_swap.h"
 
-typedef struct s_stack
-{
-    int value;
-    struct s_stack *next;
-} t_stack;
+void reverse_rotate_a(t_stack *stack, int bonus) {
+    t_node *last, *second_last;
 
-void	rra(t_stack **a)
-{
-    t_stack *temp;
-    t_stack *first;
-
-    if (*a == NULL || (*a)->next == NULL)
+    if (!stack->a || !stack->a->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
         return;
 
-	temp = *a;
-    while (temp->next != NULL)
-	{
-        temp = temp->next;
-	}
-    first = temp;
+    last = stack->a;
+    second_last = NULL;
 
-	temp = *a;
-	while (temp->next->next != NULL)
-	{
-		temp = temp->next;
-	}
-	temp->next = NULL;
-	first->next = *a;
-	*a = first;
+    // Liste sonuna git ve son düğüm ile sondan bir önceki düğümü bul.
+    while (last->next) {
+        second_last = last;
+        last = last->next;
+    }
+
+    // Son düğümü başa taşı.
+    last->next = stack->a;
+    stack->a = last;
+    second_last->next = NULL;
+
+    if (!bonus)
+        printf("rra\n");
 }
 
-void	rrb(t_stack **b)
-{
-    t_stack *temp;
-    t_stack *first;
+void reverse_rotate_b(t_stack *stack, int bonus) {
+    t_node *last, *second_last;
 
-    if (*b == NULL || (*b)->next == NULL)
+    if (!stack->b || !stack->b->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
         return;
 
-	temp = *b;
-    while (temp->next != NULL)
-	{
-        temp = temp->next;
-	}
-    first = temp;
+    last = stack->b;
+    second_last = NULL;
 
-	temp = *b;
-	while (temp->next->next != NULL)
-	{
-		temp = temp->next;
-	}
-	temp->next = NULL;
-	first->next = *b;
-	*b = first;
+    // Liste sonuna git ve son düğüm ile sondan bir önceki düğümü bul.
+    while (last->next) {
+        second_last = last;
+        last = last->next;
+    }
+
+    // Son düğümü başa taşı.
+    last->next = stack->b;
+    stack->b = last;
+    second_last->next = NULL;
+
+    if (!bonus)
+        printf("rrb\n");
 }
 
-void	rrr(t_stack **a, t_stack **b)
-{
-	rra(a);
-	rrb(b);
+void reverse_rotate_r(t_stack *stack, int bonus) {
+    // Hem A hem de B yığınları için reverse rotate işlemini gerçekleştir.
+    if (stack->a && stack->a->next)
+        reverse_rotate_a(stack, 1); // Bonus ile çağır, çünkü ayrı bir printf yazılmayacak.
+
+    if (stack->b && stack->b->next)
+        reverse_rotate_b(stack, 1); // Bonus ile çağır, çünkü ayrı bir printf yazılmayacak.
+
+    if (!bonus)
+        printf("rrr\n");
 }

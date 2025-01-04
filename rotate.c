@@ -1,53 +1,49 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "deneme.h"
+#include "push_swap.h"
 
-typedef struct s_stack
-{
-    int value;
-    struct s_stack *next;
-} t_stack;
+void rotate_a(t_stack *stack, int bonus) {
+    t_node *temp, *last;
 
-void ra(t_stack **a)
-{
-    t_stack *temp;
-    t_stack *last;
-
-    if (*a == NULL || (*a)->next == NULL)
+    if (!stack->a || !stack->a->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
         return;
 
-    temp = *a;
-    *a = (*a)->next;
+    temp = stack->a;                // İlk düğümü geçici olarak sakla.
+    stack->a = stack->a->next;       // Liste başını güncelle.
+    temp->next = NULL;             // Eski ilk düğümün `next` işaretçisini sıfırla.
 
-    last = *a;
-    while (last->next != NULL)
-	{
+    last = stack->a;                // Listeyi son düğüme kadar ilerlet.
+    while (last->next)
         last = last->next;
-	}
-    last->next = temp;
-    temp->next = NULL;
+
+    last->next = temp;             // Eski ilk düğümü sona ekle.
+    if (!bonus)
+        printf("ra\n");
 }
 
-void	rb(t_stack **b)
-{
-	t_stack	*temp;
-	t_stack	*last;
-	if (*b == NULL || (*b)->next == NULL)
-		return;
+void rotate_b(t_stack *stack, int bonus) {
+    t_node *temp, *last;
 
-	temp = *b;
-	*b = (*b)->next;
-	last = *b;
-	while (last->next != NULL)
-	{
-		last = last->next;
-	}
-	last->next = temp;
-	temp->next = NULL;
+    if (!stack->b || !stack->b->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
+        return;
+
+    temp = stack->b;                // İlk düğümü geçici olarak sakla.
+    stack->b = stack->b->next;       // Liste başını güncelle.
+    temp->next = NULL;             // Eski ilk düğümün `next` işaretçisini sıfırla.
+
+    last = stack->b;                // Listeyi son düğüme kadar ilerlet.
+    while (last->next)
+        last = last->next;
+
+    last->next = temp;             // Eski ilk düğümü sona ekle.
+    if (!bonus)
+        printf("rb\n");
 }
 
-void	rr(t_stack **a, t_stack **b)
-{
-	ra(a);
-	rb(b);
+void rotate_r(t_stack *stack, int bonus) {
+    if ((!stack->a || !stack->a->next) && (!stack->b || !stack->b->next)) // Her iki liste de boş veya tek elemanlıysa işlem yapma.
+        return;
+
+    rotate_a(stack, 1);             // A yığını için döndürme işlemini gerçekleştir.
+    rotate_b(stack, 1);             // B yığını için döndürme işlemini gerçekleştir.
+    if (!bonus)
+        printf("rr\n");
 }

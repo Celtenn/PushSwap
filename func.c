@@ -1,34 +1,94 @@
-#include <stdlib.h>
+#include "push_swap.h"
 
-int	ft_atoi(char *str)
-{
-	int i = 0;
-	int neg = 1;
-	int result = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-	{
-		i++;
-	}
-	if (str[i] == 45 || str[i] == 43)
-	{
-		if (str[i] == 45)
-		{
-			neg *= -1;
-			i++;
-		}
-		else
-			i++;
-	}
-	while ((str[i] >= '0' && str[i] <= '9') && str[i])
-	{
-		result *= 10;
-		result = result + (str[i] - '0');
-		i++;
-	}
-	return (result * neg);
+void error_detected(t_node *head) {
+    t_node *tmp;
+
+    // Listeyi serbest bırak
+    while (head) {
+        tmp = head;
+        head = head->next;
+        free(tmp);
+    }
+    printf("Error\n");
+    exit(1);
+}
+
+int push_swap_atoi(char *str, t_node *head) {
+    unsigned int i = 0;
+    int sign = 1;
+    unsigned long int number = 0;
+
+    while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+        i++;
+    if (str[i] == '-')
+        sign = -1;
+    if (str[i] == '+' || str[i] == '-')
+        i++;
+    while (str[i]) {
+        if (str[i] < '0' || str[i] > '9')
+            error_detected(head);
+        number = (str[i] - '0') + (number * 10);
+        i++;
+    }
+    if ((number > 2147483648 && sign == -1) || (number > 2147483647 && sign == 1))
+        error_detected(head);
+    return (number * sign);
+}
+
+int push_swap_strlen(char **av) {
+    int i = 0;
+    while (*av) {
+        av++;
+        i++;
+    }
+    return i;
+}
+
+int check_sorted(t_node *stack, int order) {
+    t_node *current = stack;
+
+    if (current == NULL || current->next == NULL) {
+        return 1;  // Liste boş ya da sadece bir eleman var, sıralıdır
+    }
+
+    // Küçükten büyüğe sıralama kontrolü
+    if (order == 0) {
+        while (current->next != NULL) {
+            if (current->value > current->next->value) {
+                return 0;  // Liste sıralı değil
+            }
+            current = current->next;
+        }
+    }
+    // Büyükten küçüğe sıralama kontrolü
+    else if (order == 1) {
+        while (current->next != NULL) {
+            if (current->value < current->next->value) {
+                return 0;  // Liste sıralı değil
+            }
+            current = current->next;
+        }
+    }
+
+    return 1;  // Liste sıralı
 }
 
 
+
+void check_doubles(t_node *head) {
+    t_node *current, *checker;
+
+    current = head;
+    while (current) {
+        checker = current->next;
+        while (checker) {
+            if (current->value == checker->value)
+                error_detected(head);
+            checker = checker->next;
+        }
+        current = current->next;
+    }
+}
 
 int	countw(char const *s, char c)
 {
