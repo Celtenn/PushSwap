@@ -16,7 +16,7 @@ typedef struct s_stack {
     int size_b;
 } t_stack;
 
-// Fonksiyon Prototipleri
+// functions
 void    error_detected(t_node *head);
 int     push_swap_atoi(char *str, t_node *head);
 int     push_swap_strlen(char **av);
