@@ -1,9 +1,9 @@
 #include "push_swap.h"
 
-void error_detected(t_node *head) {
+void error_detected(t_node *head) 
+{
     t_node *tmp;
 
-    // Listeyi serbest bırak
     while (head) 
 	{
         tmp = head;
@@ -54,34 +54,33 @@ int check_sorted(t_node *stack, int order)
 
     if (current == NULL || current->next == NULL) 
 	{
-        return 1;  // Liste boş ya da sadece bir eleman var, sıralıdır
+        return 1;
     }
 
-    // Küçükten büyüğe sıralama kontrolü
-    if (order == 0) {
+    if (order == 0) 
+	{
         while (current->next != NULL) 
 		{
             if (current->value > current->next->value) 
 			{
-                return 0;  // Liste sıralı değil
+                return 0;
             }
             current = current->next;
         }
     }
-    // Büyükten küçüğe sıralama kontrolü
+
     else if (order == 1) 
 	{
         while (current->next != NULL) 
 		{
             if (current->value < current->next->value) 
 			{
-                return 0;  // Liste sıralı değil
+                return 0;
             }
             current = current->next;
         }
     }
-
-    return 1;  // Liste sıralı
+    return 1;
 }
 
 

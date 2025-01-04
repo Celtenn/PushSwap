@@ -47,7 +47,7 @@ int sort_three_b(t_stack *stack, int len)
         while (len--)
             push_a(stack, 0);
     } 
-    else if (len == 3) 
+    else if (len == 3)
     {
         while (len || !(stack->a->value < stack->a->next->value
                         && stack->a->next->value < stack->a->next->next->value)) {
@@ -181,13 +181,15 @@ int quicksort_stack_b(t_stack *stack, int len, int count_r)
 
     while (len != numbers / 2) 
     {
-        if (stack->b->value >= pivot && len--) 
+        if (stack->b->value >= pivot) 
         {
             push_a(stack, 0);
+            len--;
         } 
-        else if (++count_r) 
+        else
         {
             rotate_b(stack, 0);
+            count_r++;
         }
     }
 
