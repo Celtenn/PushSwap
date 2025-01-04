@@ -1,9 +1,11 @@
 #include "push_swap.h"
 
-void push_b(t_stack *stack, int bonus) {
+void push_b(t_stack *stack, int bonus) 
+{
     t_node *temp;
 
-    if (stack->a) {
+    if (stack->a) 
+    {
         temp = stack->a;               // İlk düğümü kaydediyoruz.
         stack->a = stack->a->next;      // `a` listesini bir ileri taşıyoruz.
         temp->next = stack->b;         // Taşınan düğümü `b` listesinin başına ekliyoruz.
@@ -15,10 +17,12 @@ void push_b(t_stack *stack, int bonus) {
     }
 }
 
-void push_a(t_stack *stack, int bonus) {
+void push_a(t_stack *stack, int bonus) 
+{
     t_node *temp;
 
-    if (stack->b) {
+    if (stack->b) 
+    {
         temp = stack->b;               // İlk düğümü kaydediyoruz.
         stack->b = stack->b->next;      // `b` listesini bir ileri taşıyoruz.
         temp->next = stack->a;         // Taşınan düğümü `a` listesinin başına ekliyoruz.

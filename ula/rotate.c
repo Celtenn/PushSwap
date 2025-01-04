@@ -1,6 +1,7 @@
 #include "push_swap.h"
 
-void rotate_a(t_stack *stack, int bonus) {
+void rotate_a(t_stack *stack, int bonus) 
+{
     t_node *temp, *last;
 
     if (!stack->a || !stack->a->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
@@ -19,7 +20,8 @@ void rotate_a(t_stack *stack, int bonus) {
         printf("ra\n");
 }
 
-void rotate_b(t_stack *stack, int bonus) {
+void rotate_b(t_stack *stack, int bonus) 
+{
     t_node *temp, *last;
 
     if (!stack->b || !stack->b->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
@@ -38,7 +40,8 @@ void rotate_b(t_stack *stack, int bonus) {
         printf("rb\n");
 }
 
-void rotate_r(t_stack *stack, int bonus) {
+void rotate_r(t_stack *stack, int bonus) 
+{
     if ((!stack->a || !stack->a->next) && (!stack->b || !stack->b->next)) // Her iki liste de boş veya tek elemanlıysa işlem yapma.
         return;
 

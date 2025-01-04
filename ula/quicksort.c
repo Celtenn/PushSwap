@@ -1,22 +1,33 @@
 #include "push_swap.h"
 
-void quicksort_three_stack_a_and_b(t_stack *stack, int len) {
-    if (len == 3 && list_size(stack->a) == 3) {
+void quicksort_three_stack_a_and_b(t_stack *stack, int len) 
+{
+    if (len == 3 && list_size(stack->a) == 3) 
+    {
         three_numbers_case_stack_a(stack);
-    } else if (len == 2) {
+    } 
+    else if (len == 2) 
+    {
         if (stack->a->value > stack->a->next->value)
             swap_a(stack, 0);
-    } else if (len == 3) {
+    } 
+    else if (len == 3) 
+    {
         while (len != 3 || !(stack->a->value < stack->a->next->value
                              && stack->a->next->value < stack->a->next->next->value)) {
             if (len == 3 && stack->a->value > stack->a->next->value && stack->a->next->next) {
                 swap_a(stack, 0);
-            } else if (len == 3 && !(stack->a->next->next->value > stack->a->value
+            } 
+            else if (len == 3 && !(stack->a->next->next->value > stack->a->value
                                      && stack->a->next->next->value > stack->a->next->value)) {
                 len = ft_push(stack, len, 0);
-            } else if (stack->a->value > stack->a->next->value) {
+            } 
+            else if (stack->a->value > stack->a->next->value) 
+            {
                 swap_a(stack, 0);
-            } else if (len++) {
+            } 
+            else if (len++) 
+            {
                 push_a(stack, 0);
             }
         }
@@ -35,7 +46,9 @@ int sort_three_b(t_stack *stack, int len)
             swap_b(stack, 0);
         while (len--)
             push_a(stack, 0);
-    } else if (len == 3) {
+    } 
+    else if (len == 3) 
+    {
         while (len || !(stack->a->value < stack->a->next->value
                         && stack->a->next->value < stack->a->next->next->value)) {
             if (len == 1 && stack->a->value > stack->a->next->value) 
@@ -64,26 +77,22 @@ int mediane_of_numbers(int *pivot, t_node *head, int size)
     if (head == NULL)
         return 0;
 
-    // Geçici bir liste oluştur
     temporaire_stack = NULL;
 
-    // Orijinal listenin düğümlerini kopyala
     current = head;
     while (current != NULL)
     {
         t_node *new_node = malloc(sizeof(t_node));
         if (!new_node)
-            return 0; // Bellek hatası
+            return 0;
         new_node->value = current->value;
         new_node->next = temporaire_stack;
         temporaire_stack = new_node;
         current = current->next;
     }
 
-    // Bağlı listeyi sıralıyoruz
     temporary_sort(temporaire_stack);
 
-    // Ortanca değeri al
     i = 0;
     current = temporaire_stack;
     while (i < size / 2)
@@ -92,16 +101,14 @@ int mediane_of_numbers(int *pivot, t_node *head, int size)
         i++;
     }
 
-    *pivot = current->value; // Ortanca değeri (pivot) atıyoruz
+    *pivot = current->value;
 
-    // Geçici listeyi serbest bırak
     while (temporaire_stack != NULL)
     {
         t_node *next = temporaire_stack->next;
         free(temporaire_stack);
         temporaire_stack = next;
     }
-
     return 1;
 }
 
@@ -111,7 +118,6 @@ int quicksort_stack_a(t_stack *stack, int len, int count_r)
     int pivot;
     int numbers;
 
-    // Yığın A sıralı mı? 
     if (check_sorted(stack->a, 0) == 1) 
     {
         return 1;
@@ -124,7 +130,6 @@ int quicksort_stack_a(t_stack *stack, int len, int count_r)
         return 1;
     }
 
-    // Ortanca değeri belirle
     if (!mediane_of_numbers(&pivot, stack->a, len))
         return 0;
 
@@ -151,43 +156,46 @@ int quicksort_stack_a(t_stack *stack, int len, int count_r)
             && quicksort_stack_b(stack, numbers / 2, 0));
 }
 
-int quicksort_stack_b(t_stack *stack, int len, int count_r) {
+int quicksort_stack_b(t_stack *stack, int len, int count_r) 
+{
     int pivot;
     int numbers;
 
-    // Yığın B sıralı mı?
-    if (check_sorted(stack->b, 1) == 1) {
-        while (len--) {
+    if (check_sorted(stack->b, 1) == 1) 
+    {
+        while (len--) 
+        {
             push_a(stack, 0);
         }
     }
 
-    if (len <= 3) {
+    if (len <= 3) 
+    {
         sort_three_b(stack, len);
         return 1;
     }
 
     numbers = len;
-    if (!mediane_of_numbers(&pivot, stack->b, len)) {
+    if (!mediane_of_numbers(&pivot, stack->b, len))
         return 0;
-    }
 
-    // Yığın B'nin bölünmesi
-    while (len != numbers / 2) {
-        if (stack->b->value >= pivot && len--) {
+    while (len != numbers / 2) 
+    {
+        if (stack->b->value >= pivot && len--) 
+        {
             push_a(stack, 0);
-        } else if (++count_r) {
+        } 
+        else if (++count_r) 
+        {
             rotate_b(stack, 0);
         }
     }
 
-    while (numbers / 2 != stack->size_b && count_r--) {
+    while (numbers / 2 != stack->size_b && count_r--) 
+    {
         reverse_rotate_b(stack, 0);
     }
 
-    // Yığınları yeniden sıralamak
     return (quicksort_stack_a(stack, numbers / 2 + numbers % 2, 0)
             && quicksort_stack_b(stack, numbers / 2, 0));
 }
-
-

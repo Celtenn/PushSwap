@@ -1,6 +1,7 @@
 #include "push_swap.h"
 
-void swap_a(t_stack *stack, int bonus) {
+void swap_a(t_stack *stack, int bonus) 
+{
     t_node *first, *second;
 
     if (!stack->a || !stack->a->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
@@ -18,7 +19,8 @@ void swap_a(t_stack *stack, int bonus) {
         printf("sa\n");
 }
 
-void swap_b(t_stack *stack, int bonus) {
+void swap_b(t_stack *stack, int bonus) 
+{
     t_node *first, *second;
 
     if (!stack->b || !stack->b->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
@@ -36,7 +38,8 @@ void swap_b(t_stack *stack, int bonus) {
         printf("sb\n");
 }
 
-void swap_s(t_stack *stack, int bonus) {
+void swap_s(t_stack *stack, int bonus) 
+{
     if ((!stack->a || !stack->a->next) && (!stack->b || !stack->b->next)) // Her iki liste de boş veya tek elemanlıysa işlem yapma.
         return;
 

@@ -28,7 +28,8 @@ void temporary_sort(t_node *head)
 }
 
 
-void three_numbers_case_stack_a(t_stack *three) {
+void three_numbers_case_stack_a(t_stack *three) 
+{
     if (!three || !three->a || !three->a->next || !three->a->next->next)
         return;
 
@@ -38,13 +39,15 @@ void three_numbers_case_stack_a(t_stack *three) {
 
     if (a > b && a < c && b < c)
         swap_a(three, 0);
-    if (a > b && a > c && b > c) {
+    if (a > b && a > c && b > c) 
+    {
         swap_a(three, 0);
         reverse_rotate_a(three, 0);
     }
     if (a > b && a > c && b < c)
         rotate_a(three, 0);
-    if (a < b && a < c && b > c) {
+    if (a < b && a < c && b > c) 
+    {
         swap_a(three, 0);
         rotate_a(three, 0);
     }
@@ -52,21 +55,17 @@ void three_numbers_case_stack_a(t_stack *three) {
         reverse_rotate_a(three, 0);
 }
 
-int sort(t_stack *stack, int size) {
-    // Eğer stack veya Yığın A boşsa, sıralama işlemi yapılmaz
+int sort(t_stack *stack, int size) 
+{
     if (!stack || !stack->a)
         return 0;
 
-    // Yığın A sıralı değilse (küçükten büyüğe sıralama kontrolü)
     if (check_sorted(stack->a, 0) == 0) 
     {
-        // Yığın A'nın boyutu 2 ise, sadece swap işlemi yapılır
         if (size == 2)
             swap_a(stack, 0);
-        // Yığın A'nın boyutu 3 ise, özel üçlü sıralama fonksiyonu kullanılır
         else if (size == 3)
             three_numbers_case_stack_a(stack);
-        // Yığın A'nın boyutu 4 ve daha fazla ise, quicksort algoritması uygulanır
         else
             quicksort_stack_a(stack, size, 0);
     }
@@ -75,7 +74,8 @@ int sort(t_stack *stack, int size) {
 
 
 
-int ft_push(t_stack *stack, int len, int push) {
+int ft_push(t_stack *stack, int len, int push) 
+{
     if (!stack || len <= 0)
         return len;
 

@@ -1,7 +1,7 @@
 #include "push_swap.h"
 
-// Yeni düğüm oluşturur
-t_node *create_node(int value) {
+t_node *create_node(int value) 
+{
     t_node *node = malloc(sizeof(t_node));
     if (!node)
         return NULL;
@@ -10,24 +10,28 @@ t_node *create_node(int value) {
     return node;
 }
 
-// Listeyi temizler
-void free_list(t_node *list) {
+void free_list(t_node *list) 
+{
     t_node *tmp;
-    while (list) {
+    while (list) 
+    {
         tmp = list;
         list = list->next;
         free(tmp);
     }
 }
 
-// Listeye eleman ekler
-void append_node(t_node **list, int value) {
+void append_node(t_node **list, int value) 
+{
     t_node *new_node = create_node(value);
     if (!new_node)
         return;
-    if (!*list) {
+    if (!*list) 
+    {
         *list = new_node;
-    } else {
+    } 
+    else 
+    {
         t_node *temp = *list;
         while (temp->next)
             temp = temp->next;
@@ -35,39 +39,38 @@ void append_node(t_node **list, int value) {
     }
 }
 
-// Listenin uzunluğunu hesaplar
-int list_size(t_node *list) {
+int list_size(t_node *list) 
+{
     int size = 0;
-    while (list) {
+    while (list) 
+    {
         size++;
         list = list->next;
     }
     return size;
 }
 
-// push_swap algoritması
-void push_swap(char **av) {
+void push_swap(char **av) 
+{
     t_stack stack = {NULL, NULL};
     int     i = -1;
 
-    // Listeyi oluştur
-    while (av[++i]) {
-        int value = push_swap_atoi(av[i], NULL); // push_swap_atoi fonksiyonuna göre düzenle
+
+    while (av[++i]) 
+    {
+        int value = push_swap_atoi(av[i], NULL);
         append_node(&stack.a, value);
     }
 
-    // Tekrarları kontrol et
     check_doubles(stack.a);
     printf("eski a : ");
     print_stack(stack.a);
     printf("eski b : ");
     print_stack(stack.b);
 
-    // Boyutu hesapla ve sıralama yap
     int size = list_size(stack.a);
     sort(&stack, size);
 
-    // Belleği temizle
     printf("a : ");
     print_stack(stack.a);
     printf("b : ");
@@ -84,9 +87,11 @@ void print_stack(t_node *stack)
     }
     printf("\n");
 }
-// Ana fonksiyon
-int main(int ac, char **av) {
-    if (ac > 1) {
+
+int main(int ac, char **av) 
+{
+    if (ac > 1) 
+    {
         av++;
         if (ac == 2)
             av = ft_split(*av, ' ');

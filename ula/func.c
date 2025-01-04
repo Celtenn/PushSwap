@@ -4,7 +4,8 @@ void error_detected(t_node *head) {
     t_node *tmp;
 
     // Listeyi serbest bırak
-    while (head) {
+    while (head) 
+	{
         tmp = head;
         head = head->next;
         free(tmp);
@@ -13,7 +14,8 @@ void error_detected(t_node *head) {
     exit(1);
 }
 
-int push_swap_atoi(char *str, t_node *head) {
+int push_swap_atoi(char *str, t_node *head) 
+{
     unsigned int i = 0;
     int sign = 1;
     unsigned long int number = 0;
@@ -35,16 +37,19 @@ int push_swap_atoi(char *str, t_node *head) {
     return (number * sign);
 }
 
-int push_swap_strlen(char **av) {
+int push_swap_strlen(char **av) 
+{
     int i = 0;
-    while (*av) {
+    while (*av) 
+	{
         av++;
         i++;
     }
-    return i;
+    return (i);
 }
 
-int check_sorted(t_node *stack, int order) {
+int check_sorted(t_node *stack, int order) 
+{
     t_node *current = stack;
 
     if (current == NULL || current->next == NULL) 
@@ -64,9 +69,12 @@ int check_sorted(t_node *stack, int order) {
         }
     }
     // Büyükten küçüğe sıralama kontrolü
-    else if (order == 1) {
-        while (current->next != NULL) {
-            if (current->value < current->next->value) {
+    else if (order == 1) 
+	{
+        while (current->next != NULL) 
+		{
+            if (current->value < current->next->value) 
+			{
                 return 0;  // Liste sıralı değil
             }
             current = current->next;
@@ -78,13 +86,16 @@ int check_sorted(t_node *stack, int order) {
 
 
 
-void check_doubles(t_node *head) {
+void check_doubles(t_node *head) 
+{
     t_node *current, *checker;
 
     current = head;
-    while (current) {
+    while (current) 
+	{
         checker = current->next;
-        while (checker) {
+        while (checker) 
+		{
             if (current->value == checker->value)
                 error_detected(head);
             checker = checker->next;
