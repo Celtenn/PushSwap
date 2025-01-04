@@ -58,6 +58,10 @@ void push_swap(char **av) {
 
     // Tekrarları kontrol et
     check_doubles(stack.a);
+    printf("eski a : ");
+    print_stack(stack.a);
+    printf("eski b : ");
+    print_stack(stack.b);
 
     // Boyutu hesapla ve sıralama yap
     int size = list_size(stack.a);
