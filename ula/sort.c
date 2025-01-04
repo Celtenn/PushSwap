@@ -59,7 +59,8 @@ int sort(t_stack *stack, int size)
 {
     if (!stack || !stack->a)
         return 0;
-
+        stack->size_a = list_size(stack->a);
+        stack->size_b = 0;
     if (check_sorted(stack->a, 0) == 0) 
     {
         if (size == 2)

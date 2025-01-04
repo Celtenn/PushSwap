@@ -1,15 +1,5 @@
 #include "push_swap.h"
 
-t_node *create_node(int value) 
-{
-    t_node *node = malloc(sizeof(t_node));
-    if (!node)
-        return NULL;
-    node->value = value;
-    node->next = NULL;
-    return node;
-}
-
 void free_list(t_node *list) 
 {
     t_node *tmp;
@@ -23,20 +13,25 @@ void free_list(t_node *list)
 
 void append_node(t_node **list, int value) 
 {
-    t_node *new_node = create_node(value);
-    if (!new_node)
-        return;
-    if (!*list) 
-    {
-        *list = new_node;
-    } 
-    else 
-    {
-        t_node *temp = *list;
-        while (temp->next)
-            temp = temp->next;
-        temp->next = new_node;
-    }
+    t_node *newnode = malloc(sizeof(t_node));
+	t_node *tmp;
+	
+	newnode->value = value;
+	newnode->next = NULL;
+
+	if (*list == NULL)
+	{
+		*list = newnode;
+	}
+	else
+	{
+		tmp = *list;
+		while (tmp->next != NULL)
+		{
+			tmp = tmp->next;
+		}
+		tmp->next = newnode;
+	}
 }
 
 int list_size(t_node *list) 

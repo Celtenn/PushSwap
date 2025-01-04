@@ -17,6 +17,7 @@ typedef struct s_stack {
 } t_stack;
 
 // functions
+void validate_stacks(t_stack *stack);
 void    error_detected(t_node *head);
 int     push_swap_atoi(char *str, t_node *head);
 int     push_swap_strlen(char **av);
@@ -51,7 +52,6 @@ int quicksort_stack_a(t_stack *stack, int len, int count_r);
 int     quicksort_stack_b(t_stack *stack, int len, int count_r);
 
 // Utility Functions
-t_node  *create_node(int value);
 void    append_node(t_node **head, int value);
 void    free_list(t_node *head);
 
