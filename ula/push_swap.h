@@ -44,9 +44,9 @@ void temporary_sort(t_node *head);
 void    three_numbers_case_stack_a(t_stack *three);
 int sort(t_stack *stack, int size);
 int     ft_push(t_stack *stack, int len, int push);
-void    quicksort_three_stack_a_and_b(t_stack *stack, int len);
+void    quicksort_three_stack_a(t_stack *stack, int len);
 int     sort_three_b(t_stack *stack, int len);
-int mediane_of_numbers(int *pivot, t_node *stack, int size);
+int pivot_of_numbers(int *pivot, t_node *stack, int size);
 int quicksort_stack(t_stack *stack, int len, int count_r, int is_stack_a);
 
 // Utility Functions

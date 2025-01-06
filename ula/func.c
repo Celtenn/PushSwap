@@ -62,11 +62,8 @@ int check_sorted(t_node *stack, int order)
 {
     t_node *current = stack;
 
-    if (current == NULL || current->next == NULL) 
-	{
+    if (current == NULL || current->next == NULL)
         return 1;
-    }
-
     if (order == 0) 
 	{
         while (current->next != NULL) 
@@ -78,15 +75,12 @@ int check_sorted(t_node *stack, int order)
             current = current->next;
         }
     }
-
     else if (order == 1) 
 	{
         while (current->next != NULL) 
 		{
             if (current->value < current->next->value) 
-			{
                 return 0;
-            }
             current = current->next;
         }
     }

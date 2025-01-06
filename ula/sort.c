@@ -39,19 +39,19 @@ void three_numbers_case_stack_a(t_stack *three)
 
     if (a > b && a < c && b < c)
         swap_a(three, 0);
-    if (a > b && a > c && b > c) 
+    else if (a > b && a > c && b > c) 
     {
         swap_a(three, 0);
         reverse_rotate_a(three, 0);
     }
-    if (a > b && a > c && b < c)
+    else if (a > b && a > c && b < c)
         rotate_a(three, 0);
-    if (a < b && a < c && b > c) 
+    else if (a < b && a < c && b > c) 
     {
         swap_a(three, 0);
         rotate_a(three, 0);
     }
-    if (a < b && a > c && b > c)
+    else if (a < b && a > c && b > c)
         reverse_rotate_a(three, 0);
 }
 

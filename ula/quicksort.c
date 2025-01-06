@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void quicksort_three_stack_a_and_b(t_stack *stack, int len)
+void quicksort_three_stack_a(t_stack *stack, int len)
 {
     if (len == 2)
     {
@@ -9,7 +9,7 @@ void quicksort_three_stack_a_and_b(t_stack *stack, int len)
     }
     else if (len == 3)
     {
-        // Sadece 3 eleman varsa minimal sıralama işlemi
+        // Sadece 3 eleman varsa min sıralama işlemi
         if (stack->a->value > stack->a->next->value)
             swap_a(stack, 0);
         if (stack->a->next->value > stack->a->next->next->value)
@@ -36,12 +36,13 @@ int sort_three_b(t_stack *stack, int len)
     } 
     else if (len == 3) 
     {
-        while (len || !(stack->a->value < stack->a->next->value
-                        && stack->a->next->value < stack->a->next->next->value)) {
+        while (len > 0) 
+        {
             if (len == 1 && stack->a->value > stack->a->next->value)
                 swap_a(stack, 0);
-            else if (len == 1 || (len >= 2 && stack->b->value > stack->b->next->value)
-                       || (len == 3 && stack->b->value > stack->b->next->next->value)) {
+            else if (len == 1 || 
+                    (len >= 2 && stack->b->value > stack->b->next->value) || 
+                    (len == 3 && stack->b->value > stack->b->next->next->value)) {
                 len = ft_push(stack, len, 1);
             } 
             else 
@@ -51,7 +52,7 @@ int sort_three_b(t_stack *stack, int len)
     return 0;
 }
 
-int mediane_of_numbers(int *pivot, t_node *head, int size)
+int pivot_of_numbers(int *pivot, t_node *head, int size)
 {
     t_node *temporaire_stack = NULL;
     t_node *current;
@@ -124,15 +125,15 @@ int quicksort_stack(t_stack *stack, int len, int count_r, int is_stack_a)
                     push_a(stack, 0);
             return 1;
         }
-    if (len <= 3) 
+    if (len <= 3)
     {
         if (is_stack_a) 
-            quicksort_three_stack_a_and_b(stack, len);
+            quicksort_three_stack_a(stack, len);
         else
             sort_three_b(stack, len);
         return 1;
     }
-    if (!mediane_of_numbers(&pivot, is_stack_a ? stack->a : stack->b, len))
+    if (!pivot_of_numbers(&pivot, is_stack_a ? stack->a : stack->b, len))
         return 0;
     while (len != (is_stack_a ? (numbers / 2 + numbers % 2) : (numbers / 2)))
         hrotate(stack, &len, &count_r, pivot, is_stack_a);
