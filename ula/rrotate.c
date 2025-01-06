@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void reverse_rotate_a(t_stack *stack, int bonus) 
+void reverse_rotate_a(t_stack *stack) 
 {
     t_node *last, *second_last;
 
@@ -22,11 +22,10 @@ void reverse_rotate_a(t_stack *stack, int bonus)
     stack->a = last;
     second_last->next = NULL;
 
-    if (!bonus)
-        printf("rra\n");
+    printf("rra\n");
 }
 
-void reverse_rotate_b(t_stack *stack, int bonus) 
+void reverse_rotate_b(t_stack *stack) 
 {
     t_node *last, *second_last;
 
@@ -48,19 +47,17 @@ void reverse_rotate_b(t_stack *stack, int bonus)
     stack->b = last;
     second_last->next = NULL;
 
-    if (!bonus)
-        printf("rrb\n");
+    printf("rrb\n");
 }
 
-void reverse_rotate_r(t_stack *stack, int bonus) 
+void reverse_rotate_r(t_stack *stack) 
 {
     // Hem A hem de B yığınları için reverse rotate işlemini gerçekleştir.
     if (stack->a && stack->a->next)
-        reverse_rotate_a(stack, 1); // Bonus ile çağır, çünkü ayrı bir printf yazılmayacak.
+        reverse_rotate_a(stack); // Bonus ile çağır, çünkü ayrı bir printf yazılmayacak.
 
     if (stack->b && stack->b->next)
-        reverse_rotate_b(stack, 1); // Bonus ile çağır, çünkü ayrı bir printf yazılmayacak.
+        reverse_rotate_b(stack); // Bonus ile çağır, çünkü ayrı bir printf yazılmayacak.
 
-    if (!bonus)
-        printf("rrr\n");
+    printf("rrr\n");
 }

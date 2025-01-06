@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void push_b(t_stack *stack, int bonus) 
+void push_b(t_stack *stack) 
 {
     t_node *temp;
 
@@ -12,12 +12,12 @@ void push_b(t_stack *stack, int bonus)
         stack->b = temp;               // `b` listesini güncelliyoruz.
         stack->size_a--;               // `a` listesinin boyutunu azaltıyoruz.
         stack->size_b++;               // `b` listesinin boyutunu artırıyoruz.
-        if (!bonus)
-            printf("pb\n");
+
+        printf("pb\n");
     }
 }
 
-void push_a(t_stack *stack, int bonus) 
+void push_a(t_stack *stack) 
 {
     t_node *temp;
 
@@ -29,7 +29,7 @@ void push_a(t_stack *stack, int bonus)
         stack->a = temp;               // `a` listesini güncelliyoruz.
         stack->size_b--;               // `b` listesinin boyutunu azaltıyoruz.
         stack->size_a++;               // `a` listesinin boyutunu artırıyoruz.
-        if (!bonus)
-            printf("pa\n");
+
+        printf("pa\n");
     }
 }

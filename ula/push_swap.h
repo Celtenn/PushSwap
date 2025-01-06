@@ -27,17 +27,17 @@ int list_size(t_node *head);
 
 // Stack Manipulation Functions
 void print_stack(t_node *stack);
-void    push_a(t_stack *stack, int bonus);
-void    push_b(t_stack *stack, int bonus);
-void    rotate_a(t_stack *stack, int bonus);
-void    rotate_b(t_stack *stack, int bonus);
-void    rotate_r(t_stack *stack, int bonus);
-void    reverse_rotate_a(t_stack *stack, int bonus);
-void    reverse_rotate_b(t_stack *stack, int bonus);
-void    reverse_rotate_r(t_stack *stack, int bonus);
-void    swap_a(t_stack *stack, int bonus);
-void    swap_b(t_stack *stack, int bonus);
-void    swap_s(t_stack *stack, int bonus);
+void    push_a(t_stack *stack);
+void    push_b(t_stack *stack);
+void    rotate_a(t_stack *stack);
+void    rotate_b(t_stack *stack);
+void    rotate_r(t_stack *stack);
+void    reverse_rotate_a(t_stack *stack);
+void    reverse_rotate_b(t_stack *stack);
+void    reverse_rotate_r(t_stack *stack);
+void    swap_a(t_stack *stack);
+void    swap_b(t_stack *stack);
+void    swap_s(t_stack *stack);
 
 // Sorting Functions
 void temporary_sort(t_node *head);

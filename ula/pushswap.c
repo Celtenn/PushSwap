@@ -55,7 +55,7 @@ int list_size(t_node *list)
     return size;
 }
 
-void push_swap(char **av, int bonus) 
+void push_swap(char **av, int check) 
 {
     t_stack stack = {NULL, NULL};
     int     i = -1;
@@ -72,7 +72,7 @@ void push_swap(char **av, int bonus)
     sort(&stack, size);
     //print_stack(stack.a);
     i = 0;
-    if (bonus == 1)
+    if (check == 1)
     {
         while (av[i])
         {
@@ -87,18 +87,18 @@ void push_swap(char **av, int bonus)
 
 int main(int ac, char **av) 
 {
-    int bonus;
+    int check;
 
-    bonus = 0;
+    check = 0;
     if (ac > 1) 
     {
         av++;
         if (ac == 2)
         {
             av = ft_split(*av, ' ');
-            bonus = 1;
+            check = 1;
         }
-        push_swap(av, bonus);
+        push_swap(av, check);
         return (0);
     }
     return (0);

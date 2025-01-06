@@ -13,7 +13,7 @@ void temporary_sort(t_node *head)
     while (current != NULL) 
     {
         next_node = current->next;
-        while (next_node != NULL) 
+        while (next_node != NULL)
         {
             if (current->value > next_node->value) 
             {
@@ -28,7 +28,7 @@ void temporary_sort(t_node *head)
 }
 
 
-void three_numbers_case_stack_a(t_stack *three) 
+void three_numbers_case_stack_a(t_stack *three)
 {
     if (!three || !three->a || !three->a->next || !three->a->next->next)
         return;
@@ -38,21 +38,21 @@ void three_numbers_case_stack_a(t_stack *three)
     int c = three->a->next->next->value;
 
     if (a > b && a < c && b < c)
-        swap_a(three, 0);
+        swap_a(three);
     else if (a > b && a > c && b > c) 
     {
-        swap_a(three, 0);
-        reverse_rotate_a(three, 0);
+        swap_a(three);
+        reverse_rotate_a(three);
     }
     else if (a > b && a > c && b < c)
-        rotate_a(three, 0);
+        rotate_a(three);
     else if (a < b && a < c && b > c) 
     {
-        swap_a(three, 0);
-        rotate_a(three, 0);
+        swap_a(three);
+        rotate_a(three);
     }
     else if (a < b && a > c && b > c)
-        reverse_rotate_a(three, 0);
+        reverse_rotate_a(three);
 }
 
 int sort(t_stack *stack, int size) 
@@ -64,7 +64,7 @@ int sort(t_stack *stack, int size)
     if (check_sorted(stack->a, 0) == 0) 
     {
         if (size == 2)
-            swap_a(stack, 0);
+            swap_a(stack);
         else if (size == 3)
             three_numbers_case_stack_a(stack);
         else
@@ -81,9 +81,9 @@ int ft_push(t_stack *stack, int len, int push)
         return len;
 
     if (push == 0)
-        push_b(stack, 0);
+        push_b(stack);
     else
-        push_a(stack, 0);
+        push_a(stack);
 
     len--;
     return len;

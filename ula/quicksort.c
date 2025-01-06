@@ -5,48 +5,48 @@ void quicksort_three_stack_a(t_stack *stack, int len)
     if (len == 2)
     {
         if (stack->a->value > stack->a->next->value)
-            swap_a(stack, 0);
+            swap_a(stack);
     }
     else if (len == 3)
     {
         // Sadece 3 eleman varsa min sıralama işlemi
         if (stack->a->value > stack->a->next->value)
-            swap_a(stack, 0);
+            swap_a(stack);
         if (stack->a->next->value > stack->a->next->next->value)
         {
-            rotate_a(stack, 0);
-            swap_a(stack, 0);
-            reverse_rotate_a(stack, 0);
+            rotate_a(stack);
+            swap_a(stack);
+            reverse_rotate_a(stack);
         }
         if (stack->a->value > stack->a->next->value)
-            swap_a(stack, 0);
+            swap_a(stack);
     }
 }
 
 int sort_three_b(t_stack *stack, int len) 
 {
     if (len == 1)
-        push_a(stack, 0); 
+        push_a(stack); 
     else if (len == 2) 
     {
         if (stack->b->value < stack->b->next->value)
-            swap_b(stack, 0);
+            swap_b(stack);
         while (len--)
-            push_a(stack, 0);
+            push_a(stack);
     } 
     else if (len == 3) 
     {
         while (len > 0) 
         {
             if (len == 1 && stack->a->value > stack->a->next->value)
-                swap_a(stack, 0);
+                swap_a(stack);
             else if (len == 1 || 
                     (len >= 2 && stack->b->value > stack->b->next->value) || 
                     (len == 3 && stack->b->value > stack->b->next->next->value)) {
                 len = ft_push(stack, len, 1);
             } 
             else 
-                swap_b(stack, 0);
+                swap_b(stack);
         }
     }
     return 0;
@@ -84,17 +84,17 @@ int hrotate(t_stack *stack, int *len, int *count_r, int pivot, int is_stack_a)
         (!is_stack_a && stack->b->value >= pivot)) 
         {
         if (is_stack_a)
-            push_b(stack, 0);
+            push_b(stack);
         else
-            push_a(stack, 0);
+            push_a(stack);
         (*len)--;
     } 
     else 
     {
         if (is_stack_a)
-            rotate_a(stack, 0);
+            rotate_a(stack);
         else 
-            rotate_b(stack, 0);
+            rotate_b(stack);
         (*count_r)++;
     }
     return (0);
@@ -105,9 +105,9 @@ void rrotations(t_stack *stack, int count_r, int is_stack_a, int target_size)
     while (target_size != (is_stack_a ? stack->size_a : stack->size_b) &&
            count_r--) {
         if (is_stack_a) 
-            reverse_rotate_a(stack, 0);
+            reverse_rotate_a(stack);
         else 
-            reverse_rotate_b(stack, 0);
+            reverse_rotate_b(stack);
     }
 }
 
@@ -122,7 +122,7 @@ int quicksort_stack(t_stack *stack, int len, int count_r, int is_stack_a)
         {
             if (!is_stack_a)
                 while (len--)
-                    push_a(stack, 0);
+                    push_a(stack);
             return 1;
         }
     if (len <= 3)

@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-void rotate_a(t_stack *stack, int bonus) 
+void rotate_a(t_stack *stack) 
 {
     t_node *temp, *last;
 
@@ -16,11 +16,11 @@ void rotate_a(t_stack *stack, int bonus)
         last = last->next;
 
     last->next = temp;             // Eski ilk düğümü sona ekle.
-    if (!bonus)
-        printf("ra\n");
+
+    printf("ra\n");
 }
 
-void rotate_b(t_stack *stack, int bonus) 
+void rotate_b(t_stack *stack) 
 {
     t_node *temp, *last;
 
@@ -36,17 +36,17 @@ void rotate_b(t_stack *stack, int bonus)
         last = last->next;
 
     last->next = temp;             // Eski ilk düğümü sona ekle.
-    if (!bonus)
-        printf("rb\n");
+
+    printf("rb\n");
 }
 
-void rotate_r(t_stack *stack, int bonus) 
+void rotate_r(t_stack *stack) 
 {
     if ((!stack->a || !stack->a->next) && (!stack->b || !stack->b->next)) // Her iki liste de boş veya tek elemanlıysa işlem yapma.
         return;
 
-    rotate_a(stack, 1);             // A yığını için döndürme işlemini gerçekleştir.
-    rotate_b(stack, 1);             // B yığını için döndürme işlemini gerçekleştir.
-    if (!bonus)
-        printf("rr\n");
+    rotate_a(stack);             // A yığını için döndürme işlemini gerçekleştir.
+    rotate_b(stack);             // B yığını için döndürme işlemini gerçekleştir.
+
+    printf("rr\n");
 }
