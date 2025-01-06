@@ -1,5 +1,15 @@
 #include "push_swap.h"
 
+t_node *create_node(int value) 
+{
+    t_node *node = malloc(sizeof(t_node));
+    if (!node)
+        return NULL;
+    node->value = value;
+    node->next = NULL;
+    return node;
+}
+
 void free_list(t_node *list) 
 {
     t_node *tmp;
@@ -45,11 +55,10 @@ int list_size(t_node *list)
     return size;
 }
 
-void push_swap(char **av) 
+void push_swap(char **av, int bonus) 
 {
     t_stack stack = {NULL, NULL};
     int     i = -1;
-
 
     while (av[++i]) 
     {
@@ -58,39 +67,38 @@ void push_swap(char **av)
     }
 
     check_doubles(stack.a);
-    printf("eski a : ");
-    print_stack(stack.a);
-    printf("eski b : ");
-    print_stack(stack.b);
 
     int size = list_size(stack.a);
     sort(&stack, size);
-
-    printf("a : ");
-    print_stack(stack.a);
-    printf("b : ");
-    print_stack(stack.b);
+    //print_stack(stack.a);
+    i = 0;
+    if (bonus == 1)
+    {
+        while (av[i])
+        {
+            free(av[i]);
+            i++;
+        }
+        free(av);
+    }
     free_list(stack.a);
     free_list(stack.b);
-}
-void print_stack(t_node *stack) 
-{
-    while (stack) 
-    {
-        printf("%d ", stack->value);
-        stack = stack->next;
-    }
-    printf("\n");
 }
 
 int main(int ac, char **av) 
 {
+    int bonus;
+
+    bonus = 0;
     if (ac > 1) 
     {
         av++;
         if (ac == 2)
+        {
             av = ft_split(*av, ' ');
-        push_swap(av);
+            bonus = 1;
+        }
+        push_swap(av, bonus);
         return (0);
     }
     return (0);

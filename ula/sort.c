@@ -6,7 +6,7 @@ void temporary_sort(t_node *head)
     t_node *next_node;
     int temp;
 
-    if (head == NULL)
+    if (head == NULL && head->next == NULL)
         return;
 
     current = head;
@@ -68,7 +68,7 @@ int sort(t_stack *stack, int size)
         else if (size == 3)
             three_numbers_case_stack_a(stack);
         else
-            quicksort_stack_a(stack, size, 0);
+            quicksort_stack(stack, size, 0, 1);
     }
     return 0;
 }

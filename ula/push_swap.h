@@ -17,7 +17,6 @@ typedef struct s_stack {
 } t_stack;
 
 // functions
-void validate_stacks(t_stack *stack);
 void    error_detected(t_node *head);
 int     push_swap_atoi(char *str, t_node *head);
 int     push_swap_strlen(char **av);
@@ -48,8 +47,7 @@ int     ft_push(t_stack *stack, int len, int push);
 void    quicksort_three_stack_a_and_b(t_stack *stack, int len);
 int     sort_three_b(t_stack *stack, int len);
 int mediane_of_numbers(int *pivot, t_node *stack, int size);
-int quicksort_stack_a(t_stack *stack, int len, int count_r);
-int     quicksort_stack_b(t_stack *stack, int len, int count_r);
+int quicksort_stack(t_stack *stack, int len, int count_r, int is_stack_a);
 
 // Utility Functions
 void    append_node(t_node **head, int value);
