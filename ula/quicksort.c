@@ -1,145 +1,85 @@
 #include "push_swap.h"
 
-void quicksort_three_stack_a(t_stack *stack, int len)
+int	pivot_of_numbers(int *pivot, t_node *head, int size)
 {
-    if (len == 2)
-    {
-        if (stack->a->value > stack->a->next->value)
-            swap_a(stack);
-    }
-    else if (len == 3)
-    {
-        // Sadece 3 eleman varsa min sıralama işlemi
-        if (stack->a->value > stack->a->next->value)
-            swap_a(stack);
-        if (stack->a->next->value > stack->a->next->next->value)
-        {
-            rotate_a(stack);
-            swap_a(stack);
-            reverse_rotate_a(stack);
-        }
-        if (stack->a->value > stack->a->next->value)
-            swap_a(stack);
-    }
+	t_node	*temporaire_stack;
+	t_node	*current;
+	int		i;
+
+	i = 0;
+	temporaire_stack = NULL;
+	if (head == NULL)
+		return (0);
+	current = head;
+	while (current != NULL && i < size)
+	{
+		append_node(&temporaire_stack, current->value);
+		current = current->next;
+		i++;
+	}
+	temporary_sort(temporaire_stack);
+	i = 0;
+	current = temporaire_stack;
+	while (i++ < size / 2)
+		current = current->next;
+	*pivot = current->value;
+	free_list(temporaire_stack);
+	return (1);
 }
 
-int sort_three_b(t_stack *stack, int len) 
+int	quicksort_stack_a(t_stack *stack, int len, int count_r)
 {
-    if (len == 1)
-        push_a(stack); 
-    else if (len == 2) 
-    {
-        if (stack->b->value < stack->b->next->value)
-            swap_b(stack);
-        while (len--)
-            push_a(stack);
-    } 
-    else if (len == 3) 
-    {
-        while (len > 0) 
-        {
-            if (len == 1 && stack->a->value > stack->a->next->value)
-                swap_a(stack);
-            else if (len == 1 || 
-                    (len >= 2 && stack->b->value > stack->b->next->value) || 
-                    (len == 3 && stack->b->value > stack->b->next->next->value)) {
-                len = ft_push(stack, len, 1);
-            } 
-            else 
-                swap_b(stack);
-        }
-    }
-    return 0;
+	int	pivot;
+	int	numbers;
+
+	if (check_sorted(stack->a, 0) == 1)
+		return (1);
+	numbers = len;
+	if (len <= 3)
+	{
+		quicksort_three_stack_a(stack, len);
+		return (1);
+	}
+	if (!pivot_of_numbers(&pivot, stack->a, len))
+		return (0);
+	while (len != (numbers / 2 + numbers % 2))
+	{
+		if (stack->a->value < pivot && len--)
+			push_b(stack);
+		else if (++count_r)
+			rotate_a(stack);
+	}
+	while (numbers / 2 + numbers % 2 != stack->size_a && count_r--)
+		reverse_rotate_a(stack);
+	return (quicksort_stack_a(stack, numbers / 2 + numbers % 2, 0)
+		&& quicksort_stack_b(stack, numbers / 2, 0));
 }
 
-int pivot_of_numbers(int *pivot, t_node *head, int size)
+int	quicksort_stack_b(t_stack *stack, int len, int count_r)
 {
-    t_node *temporaire_stack = NULL;
-    t_node *current;
-    int i;
+	int	pivot;
+	int	numbers;
 
-    i = 0;
-    if (head == NULL)
-        return 0;
-    current = head;
-    while (current != NULL && i < size)
-    {
-        append_node(&temporaire_stack, current->value);
-        current = current->next;
-        i++;
-    }
-    temporary_sort(temporaire_stack);
-    i = 0;
-    current = temporaire_stack;
-    while (i++ < size / 2)
-        current = current->next;
-    *pivot = current->value;
-    free_list(temporaire_stack);
-    return (1);
-}
-
-int hrotate(t_stack *stack, int *len, int *count_r, int pivot, int is_stack_a)
-{
-    if ((is_stack_a && stack->a->value < pivot) ||
-        (!is_stack_a && stack->b->value >= pivot)) 
-        {
-        if (is_stack_a)
-            push_b(stack);
-        else
-            push_a(stack);
-        (*len)--;
-    } 
-    else 
-    {
-        if (is_stack_a)
-            rotate_a(stack);
-        else 
-            rotate_b(stack);
-        (*count_r)++;
-    }
-    return (0);
-}
-
-void rrotations(t_stack *stack, int count_r, int is_stack_a, int target_size) 
-{
-    while (target_size != (is_stack_a ? stack->size_a : stack->size_b) &&
-           count_r--) {
-        if (is_stack_a) 
-            reverse_rotate_a(stack);
-        else 
-            reverse_rotate_b(stack);
-    }
-}
-
-int quicksort_stack(t_stack *stack, int len, int count_r, int is_stack_a) 
-{
-    int pivot;
-    int numbers;
-
-    numbers = len;
-    if ((is_stack_a && check_sorted(stack->a, 0) == 1) ||
-        (!is_stack_a && check_sorted(stack->b, 1) == 1)) 
-        {
-            if (!is_stack_a)
-                while (len--)
-                    push_a(stack);
-            return 1;
-        }
-    if (len <= 3)
-    {
-        if (is_stack_a) 
-            quicksort_three_stack_a(stack, len);
-        else
-            sort_three_b(stack, len);
-        return 1;
-    }
-    if (!pivot_of_numbers(&pivot, is_stack_a ? stack->a : stack->b, len))
-        return 0;
-    while (len != (is_stack_a ? (numbers / 2 + numbers % 2) : (numbers / 2)))
-        hrotate(stack, &len, &count_r, pivot, is_stack_a);
-    rrotations(stack, count_r, is_stack_a,
-                                is_stack_a ? (numbers / 2 + numbers % 2)
-                                           : (numbers / 2));
-    return (quicksort_stack(stack, numbers / 2 + numbers % 2, 0, 1) &&
-            quicksort_stack(stack, numbers / 2, 0, 0));
+	if (check_sorted(stack->b, 1) == 1)
+		while (len--)
+			push_a(stack);
+	if (len <= 3)
+	{
+		sort_three_b(stack, len);
+		return (1);
+	}
+	numbers = len;
+	if (!pivot_of_numbers(&pivot, stack->b, len))
+		return (0);
+	while (len != numbers / 2)
+	{
+		if (stack->b->value >= pivot && len--)
+			push_a(stack);
+		else if (++count_r)
+			rotate_b(stack);
+	}
+	while (numbers / 2 != stack->size_b && count_r--)
+		reverse_rotate_b(stack);
+	return (quicksort_stack_a(stack, numbers / 2 + numbers % 2, 0)
+		&& quicksort_stack_b(stack, numbers / 2, 0));
 }

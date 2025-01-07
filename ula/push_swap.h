@@ -18,8 +18,7 @@ typedef struct s_stack {
 
 // functions
 void    error_detected(t_node *head);
-int     push_swap_atoi(char *str, t_node *head);
-int     push_swap_strlen(char **av);
+int     ft_atoi(char *str, t_node *head);
 int check_sorted(t_node *stack, int order);
 void    check_doubles(t_node *head);
 char	**ft_split(char const *s, char c);
@@ -41,13 +40,14 @@ void    swap_s(t_stack *stack);
 
 // Sorting Functions
 void temporary_sort(t_node *head);
-void    three_numbers_case_stack_a(t_stack *three);
+void	three_numbers_case_stack_a(t_stack *three, int a, int b, int c);
 int sort(t_stack *stack, int size);
 int     ft_push(t_stack *stack, int len, int push);
 void    quicksort_three_stack_a(t_stack *stack, int len);
 int     sort_three_b(t_stack *stack, int len);
 int pivot_of_numbers(int *pivot, t_node *stack, int size);
-int quicksort_stack(t_stack *stack, int len, int count_r, int is_stack_a);
+int quicksort_stack_a(t_stack *stack, int len, int count_r);
+int quicksort_stack_b(t_stack *stack, int len, int count_r);
 
 // Utility Functions
 void    append_node(t_node **head, int value);
