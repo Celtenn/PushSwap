@@ -12,7 +12,7 @@ void	free_list(t_node *list)
 	}
 }
 
-void	append_node(t_node **list, int value)
+void	add_node(t_node **list, int value)
 {
 	t_node	*newnode;
 	t_node	*tmp;
@@ -60,7 +60,7 @@ void	push_swap(char **av, int check)
 	while (av[++i])
 	{
 		value = ft_atoi(av[i], NULL);
-		append_node(&stack.a, value);
+		add_node(&stack.a, value);
 	}
 	check_doubles(stack.a);
 	value = list_size(stack.a);

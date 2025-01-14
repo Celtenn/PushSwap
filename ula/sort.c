@@ -35,10 +35,10 @@ void	three_numbers(t_stack *three)
 	a = three->a->value;
 	b = three->a->next->value;
 	c = three->a->next->next->value;
-	three_numbers_case_stack_a(three, a, b, c);
+	three_numbers_stack_a(three, a, b, c);
 }
 
-void	three_numbers_case_stack_a(t_stack *three, int a, int b, int c)
+void	three_numbers_stack_a(t_stack *three, int a, int b, int c)
 {
 	if (!three || !three->a || !three->a->next || !three->a->next->next)
 		return ;

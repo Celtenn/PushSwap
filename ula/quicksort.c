@@ -13,7 +13,7 @@ int	pivot_of_numbers(int *pivot, t_node *head, int size)
 	current = head;
 	while (current != NULL && i < size)
 	{
-		append_node(&temporaire_stack, current->value);
+		add_node(&temporaire_stack, current->value);
 		current = current->next;
 		i++;
 	}
