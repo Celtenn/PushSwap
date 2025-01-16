@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:56:06 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/16 05:16:55 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/16 05:19:32 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	**ft_split(char const *s, char c);
 int		list_size(t_node *head);
 
 // Stack Manipulation Functions
-void	print_stack(t_node *stack);
 void	push_a(t_stack *stack);
 void	push_b(t_stack *stack);
 void	rotate_a(t_stack *stack);
