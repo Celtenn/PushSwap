@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:50:11 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/16 00:52:49 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/16 04:57:04 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	rotate_a(t_stack *stack)
 	while (last->next)
 		last = last->next;
 	last->next = temp;
-	printf("ra\n");
+	write(1, "ra\n", 3);
 }
 
 void	rotate_b(t_stack *stack)
@@ -43,7 +43,7 @@ void	rotate_b(t_stack *stack)
 	while (last->next)
 		last = last->next;
 	last->next = temp;
-	printf("rb\n");
+	write(1, "rb\n", 3);
 }
 
 void	rotate_r(t_stack *stack)
@@ -52,5 +52,5 @@ void	rotate_r(t_stack *stack)
 		return ;
 	rotate_a(stack);
 	rotate_b(stack);
-	printf("rr\n");
+	write(1, "rr\n", 3);
 }

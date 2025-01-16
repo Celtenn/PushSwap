@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:56:06 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/16 04:07:10 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/16 05:16:55 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PUSH_SWAP_H
 
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 
 typedef struct s_node

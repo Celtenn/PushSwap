@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:46:15 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/16 00:49:58 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/16 04:54:18 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	swap_a(t_stack *stack)
 	temp = first->value;
 	first->value = second->value;
 	second->value = temp;
-	printf("sa\n");
+	write(1, "sa\n", 3);
 }
 
 void	swap_b(t_stack *stack)
@@ -41,7 +41,7 @@ void	swap_b(t_stack *stack)
 	temp = first->value;
 	first->value = second->value;
 	second->value = temp;
-	printf("sb\n");
+	write(1, "sb\n", 3);
 }
 
 void	swap_s(t_stack *stack)
@@ -50,5 +50,5 @@ void	swap_s(t_stack *stack)
 		return ;
 	swap_a(stack);
 	swap_b(stack);
-	printf("ss\n");
+	write(1, "ss\n", 3);
 }
