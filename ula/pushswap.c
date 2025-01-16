@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pushswap.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 01:01:50 by idkahram          #+#    #+#             */
+/*   Updated: 2025/01/16 04:25:07 by idkahram         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	free_list(t_node *list)
@@ -57,6 +69,8 @@ void	push_swap(char **av, int check)
 	int		i;
 
 	i = -1;
+	stack.a = NULL;
+	stack.b = NULL;
 	while (av[++i])
 	{
 		value = ft_atoi(av[i], NULL);
@@ -68,12 +82,7 @@ void	push_swap(char **av, int check)
 	i = 0;
 	if (check == 1)
 	{
-		while (av[i])
-		{
-			free(av[i]);
-			i++;
-		}
-		free(av);
+		ft_split_free(av);
 	}
 	free_list(stack.a);
 	free_list(stack.b);

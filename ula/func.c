@@ -1,13 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   func.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 01:01:39 by idkahram          #+#    #+#             */
+/*   Updated: 2025/01/16 04:30:50 by idkahram         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	print_stack(t_node *stack)
+void	ft_split_free(char	**str)
 {
-	while (stack)
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		printf("%d ", stack->value);
-		stack = stack->next;
+		free(str[i]);
+		i++;
 	}
-	printf("\n");
+	free(str);
 }
 
 void	error_detected(t_node *head)
@@ -20,7 +35,7 @@ void	error_detected(t_node *head)
 		head = head->next;
 		free(tmp);
 	}
-	printf("Error\n");
+	write(1, "Error\n", 6);
 	exit(1);
 }
 

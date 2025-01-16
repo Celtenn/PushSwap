@@ -1,52 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rotate.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 00:50:11 by idkahram          #+#    #+#             */
+/*   Updated: 2025/01/16 00:52:49 by idkahram         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void rotate_a(t_stack *stack) 
+void	rotate_a(t_stack *stack)
 {
-    t_node *temp, *last;
+	t_node	*temp;
+	t_node	*last;
 
-    if (!stack->a || !stack->a->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
-        return;
-
-    temp = stack->a;                // İlk düğümü geçici olarak sakla.
-    stack->a = stack->a->next;       // Liste başını güncelle.
-    temp->next = NULL;             // Eski ilk düğümün `next` işaretçisini sıfırla.
-
-    last = stack->a;                // Listeyi son düğüme kadar ilerlet.
-    while (last->next)
-        last = last->next;
-
-    last->next = temp;             // Eski ilk düğümü sona ekle.
-
-    printf("ra\n");
+	if (!stack->a || !stack->a->next)
+		return ;
+	temp = stack->a;
+	stack->a = stack->a->next;
+	temp->next = NULL;
+	last = stack->a;
+	while (last->next)
+		last = last->next;
+	last->next = temp;
+	printf("ra\n");
 }
 
-void rotate_b(t_stack *stack) 
+void	rotate_b(t_stack *stack)
 {
-    t_node *temp, *last;
+	t_node	*temp;
+	t_node	*last;
 
-    if (!stack->b || !stack->b->next) // Liste boşsa veya tek elemanlıysa işlem yapma.
-        return;
-
-    temp = stack->b;                // İlk düğümü geçici olarak sakla.
-    stack->b = stack->b->next;       // Liste başını güncelle.
-    temp->next = NULL;             // Eski ilk düğümün `next` işaretçisini sıfırla.
-
-    last = stack->b;                // Listeyi son düğüme kadar ilerlet.
-    while (last->next)
-        last = last->next;
-
-    last->next = temp;             // Eski ilk düğümü sona ekle.
-
-    printf("rb\n");
+	if (!stack->b || !stack->b->next)
+		return ;
+	temp = stack->b;
+	stack->b = stack->b->next;
+	temp->next = NULL;
+	last = stack->b;
+	while (last->next)
+		last = last->next;
+	last->next = temp;
+	printf("rb\n");
 }
 
-void rotate_r(t_stack *stack) 
+void	rotate_r(t_stack *stack)
 {
-    if ((!stack->a || !stack->a->next) && (!stack->b || !stack->b->next)) // Her iki liste de boş veya tek elemanlıysa işlem yapma.
-        return;
-
-    rotate_a(stack);             // A yığını için döndürme işlemini gerçekleştir.
-    rotate_b(stack);             // B yığını için döndürme işlemini gerçekleştir.
-
-    printf("rr\n");
+	if ((!stack->a || !stack->a->next) && (!stack->b || !stack->b->next))
+		return ;
+	rotate_a(stack);
+	rotate_b(stack);
+	printf("rr\n");
 }
