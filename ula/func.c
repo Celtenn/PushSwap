@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:01:39 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/20 15:01:51 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:24:42 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ int	ft_atoi(char *str, t_node *head, int check, char **av)
 			error_detected(head, check, av);
 		number = (str[i] - '0') + (number * 10);
 		i++;
+		if ((number > 2147483648 && sign == -1)
+			|| (number > 2147483647 && sign == 1))
+			error_detected(head, check, av);
 	}
-	if ((number > 2147483648 && sign == -1)
-		|| (number > 2147483647 && sign == 1))
-		error_detected(head, check, av);
 	return (number * sign);
 }
 

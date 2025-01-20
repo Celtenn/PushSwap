@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:01:50 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/20 14:47:44 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/20 23:42:34 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ void	push_swap(char **av, int check)
 	stack.b = NULL;
 	while (av[++i])
 	{
+		if (ft_strlen(av[i]) == 0 || is_all_whitespace(av[i])
+			|| after_sign(av[i]))
+			error_detected(stack.a, check, av);
 		value = ft_atoi(av[i], stack.a, check, av);
 		add_node(&stack.a, value);
 	}
@@ -81,9 +84,7 @@ void	push_swap(char **av, int check)
 	sort(&stack, value);
 	i = 0;
 	if (check == 1)
-	{
 		ft_split_free(av);
-	}
 	free_list(stack.a);
 	free_list(stack.b);
 }
@@ -98,6 +99,11 @@ int	main(int ac, char **av)
 		av++;
 		if (ac == 2)
 		{
+			if ((ft_strlen(av[0]) > 0) && is_all_whitespace(av[0]))
+			{
+				write(1, "Error\n", 6);
+				exit(1);
+			}
 			av = ft_split(*av, ' ');
 			check = 1;
 		}

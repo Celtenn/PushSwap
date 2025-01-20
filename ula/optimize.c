@@ -6,74 +6,46 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:53:05 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/20 17:53:07 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:26:01 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	check_sorted_size(t_node *stack, int order, int size)
+int	after_sign(char *str)
 {
-	t_node	*current;
+	int	i;
 
-	current = stack;
-	if (current == NULL || current->next == NULL)
-		return (1);
-	if (order == 0)
-	{
-		while (current->next != NULL && size--)
-		{
-			if (current->value > current->next->value)
-				return (0);
-			current = current->next;
-		}
-	}
-	else if (order == 1)
-	{
-		while (current->next != NULL && size--)
-		{
-			if (current->value < current->next->value)
-				return (0);
-			current = current->next;
-		}
-	}
-	return (1);
-}
-
-void	optimize_a_check(t_stack *stack, int numbers, int len)
-{
-	if ((check_sorted_size(stack->a, 1, len) == 1))
-	{
-		while (len > numbers)
-		{
-			push_b(stack);
-			numbers++;
-		}
-		while (numbers > 0)
-		{
-			rotate_b(stack);
-			numbers--;
-		}
-		while (numbers < len)
-		{
-			reverse_rotate_b(stack);
-			push_a(stack);
-			numbers++;
-		}
-	}
-}
-
-int	optimize_b_check(t_stack *stack, int numbers)
-{
-	if (check_sorted(stack->b, 0) == 1)
-	{
-		while (numbers < (stack->size_b))
-		{
-			reverse_rotate_b(stack);
-			push_a(stack);
-		}
-	}
-	if (!stack->b)
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
 		return (1);
 	return (0);
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+int	is_all_whitespace(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
 }

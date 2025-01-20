@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:02:05 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/20 17:55:45 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 00:52:37 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	quicksort_stack_a(t_stack *stack, int len, int count_r)
 	numbers = 0;
 	if (stack_a_check(stack, len))
 		return (1);
-	optimize_a_check(stack, numbers, len);
+	if (len > 5)
+		optimize_a_check(stack, numbers, len);
 	numbers = len;
 	if (!pivot_of_numbers(&pivot, stack->a, len))
 		return (0);

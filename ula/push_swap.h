@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:56:06 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/20 17:59:22 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:51:08 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ typedef struct s_stack
 }	t_stack;
 
 // functions
+int		after_sign(char *str);
+int		ft_strlen(char *str);
+int		is_all_whitespace(char *str);
 int		check_sorted_size(t_node *stack, int order, int size);
 void	optimize_a_check(t_stack *stack, int numbers, int len);
 int		optimize_b_check(t_stack *stack, int numbers);
