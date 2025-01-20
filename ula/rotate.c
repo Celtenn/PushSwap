@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:50:11 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/16 04:57:04 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 01:14:20 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,4 @@ void	rotate_b(t_stack *stack)
 		last = last->next;
 	last->next = temp;
 	write(1, "rb\n", 3);
-}
-
-void	rotate_r(t_stack *stack)
-{
-	if ((!stack->a || !stack->a->next) && (!stack->b || !stack->b->next))
-		return ;
-	rotate_a(stack);
-	rotate_b(stack);
-	write(1, "rr\n", 3);
 }

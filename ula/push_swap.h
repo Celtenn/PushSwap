@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:56:06 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/20 20:51:08 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 01:15:55 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,10 @@ void	push_a(t_stack *stack);
 void	push_b(t_stack *stack);
 void	rotate_a(t_stack *stack);
 void	rotate_b(t_stack *stack);
-void	rotate_r(t_stack *stack);
 void	reverse_rotate_a(t_stack *stack);
 void	reverse_rotate_b(t_stack *stack);
-void	reverse_rotate_r(t_stack *stack);
 void	swap_a(t_stack *stack);
 void	swap_b(t_stack *stack);
-void	swap_s(t_stack *stack);
 
 // Sorting Functions
 void	temporary_sort(t_node *head);
