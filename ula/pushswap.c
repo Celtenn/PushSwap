@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:01:50 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/16 04:25:07 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:47:44 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void	push_swap(char **av, int check)
 	stack.b = NULL;
 	while (av[++i])
 	{
-		value = ft_atoi(av[i], NULL);
+		value = ft_atoi(av[i], stack.a, check, av);
 		add_node(&stack.a, value);
 	}
-	check_doubles(stack.a);
+	check_doubles(stack.a, check, av);
 	value = list_size(stack.a);
 	sort(&stack, value);
 	i = 0;

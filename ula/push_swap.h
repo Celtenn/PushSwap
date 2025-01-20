@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:56:06 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/16 05:19:32 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:47:01 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ typedef struct s_stack
 }	t_stack;
 
 // functions
-void	error_detected(t_node *head);
-int		ft_atoi(char *str, t_node *head);
+void	error_detected(t_node *head, int check, char **str);
+int		ft_atoi(char *str, t_node *head, int check, char **av);
 int		check_sorted(t_node *stack, int order);
-void	check_doubles(t_node *head);
+void	check_doubles(t_node *head, int check, char **str);
 char	**ft_split(char const *s, char c);
 int		list_size(t_node *head);
 
