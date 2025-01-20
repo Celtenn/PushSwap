@@ -34,6 +34,11 @@ int	quicksort_stack_a(t_stack *stack, int len, int count_r)
 
 	if (check_sorted(stack->a, 0) == 1)
 		return (1);
+	if (len <= 3)
+	{
+		quicksort_three_stack_a(stack, len);
+		return (1);
+	}
 	if ((check_sorted_lo(stack->a, 1, len) == 1))
 	{
 		while (len > numbers)
@@ -54,11 +59,6 @@ int	quicksort_stack_a(t_stack *stack, int len, int count_r)
 		}
 	}
 	numbers = len;
-	if (len <= 3)
-	{
-		quicksort_three_stack_a(stack, len);
-		return (1);
-	}
 	if (!pivot_of_numbers(&pivot, stack->a, len))
 		return (0);
 	while (len != (numbers / 2 + numbers % 2))
@@ -90,6 +90,8 @@ int	quicksort_stack_b(t_stack *stack, int len, int count_r)
 			push_a(stack);
 		}
 	}
+	if (!stack->b)
+		return (0);
 	if (len <= 3)
 	{
 		sort_three_b(stack, len);
