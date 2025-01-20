@@ -13,6 +13,7 @@ SRCS = ft_split.c \
 			rotate.c \
 			rrotate.c \
 			push.c \
+			optimize.c \
 			swap.c
 
 OBJS = $(SRCS:.c=.o)
