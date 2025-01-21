@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:56:06 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/21 01:15:55 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 09:41:12 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ void	optimize_a_check(t_stack *stack, int numbers, int len);
 int		optimize_b_check(t_stack *stack, int numbers);
 int		stack_a_check(t_stack *stack, int len);
 int		stack_b_check(t_stack *stack, int len);
-void	error_detected(t_node *head, int check, char **str);
-int		ft_atoi(char *str, t_node *head, int check, char **av);
+void	error_detected(t_node *head);
+void	error_detected_all(t_stack *stack, t_node *temp);
+int		ft_atoi(char *str, t_node *head);
 int		check_sorted(t_node *stack, int order);
-void	check_doubles(t_node *head, int check, char **str);
+void	check_doubles(t_node *head);
 char	**ft_split(char const *s, char c);
 int		list_size(t_node *head);
 
@@ -69,7 +70,7 @@ int		quicksort_stack_a(t_stack *stack, int len, int count_r);
 int		quicksort_stack_b(t_stack *stack, int len, int count_r);
 
 // Utility Functions
-void	add_node(t_node **head, int value);
+int		add_node(t_node **head, int value);
 void	free_list(t_node *head);
 void	ft_split_free(char	**str);
 

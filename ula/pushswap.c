@@ -6,32 +6,20 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:01:50 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/20 23:42:34 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 09:53:05 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	free_list(t_node *list)
-{
-	t_node	*tmp;
-
-	while (list)
-	{
-		tmp = list;
-		list = list->next;
-		free(tmp);
-	}
-}
-
-void	add_node(t_node **list, int value)
+int	add_node(t_node **list, int value)
 {
 	t_node	*newnode;
 	t_node	*tmp;
 
 	newnode = malloc(sizeof(t_node));
 	if (!newnode)
-		return ;
+		return (0);
 	newnode->value = value;
 	newnode->next = NULL;
 	if (*list == NULL)
@@ -47,6 +35,7 @@ void	add_node(t_node **list, int value)
 		}
 		tmp->next = newnode;
 	}
+	return (1);
 }
 
 int	list_size(t_node *list)
@@ -75,16 +64,24 @@ void	push_swap(char **av, int check)
 	{
 		if (ft_strlen(av[i]) == 0 || is_all_whitespace(av[i])
 			|| after_sign(av[i]))
-			error_detected(stack.a, check, av);
-		value = ft_atoi(av[i], stack.a, check, av);
-		add_node(&stack.a, value);
+		{
+			if (check == 1)
+				ft_split_free(av);
+			error_detected(stack.a);
+		}
+		value = ft_atoi(av[i], stack.a);
+		if (!add_node(&stack.a, value))
+		{
+			if (check == 1)
+				ft_split_free(av);
+			error_detected(stack.a);
+		}
 	}
-	check_doubles(stack.a, check, av);
-	value = list_size(stack.a);
-	sort(&stack, value);
-	i = 0;
 	if (check == 1)
 		ft_split_free(av);
+	check_doubles(stack.a);
+	value = list_size(stack.a);
+	sort(&stack, value);
 	free_list(stack.a);
 	free_list(stack.b);
 }
@@ -101,10 +98,15 @@ int	main(int ac, char **av)
 		{
 			if ((ft_strlen(av[0]) > 0) && is_all_whitespace(av[0]))
 			{
-				write(1, "Error\n", 6);
+				write(2, "Error\n", 6);
 				exit(1);
 			}
 			av = ft_split(*av, ' ');
+			if (av == NULL)
+			{
+				write(2, "Error\n", 6);
+				exit(1);
+			}
 			check = 1;
 		}
 		push_swap(av, check);

@@ -6,11 +6,23 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:01:39 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/20 21:24:42 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 09:26:06 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	free_list(t_node *list)
+{
+	t_node	*tmp;
+
+	while (list)
+	{
+		tmp = list;
+		list = list->next;
+		free(tmp);
+	}
+}
 
 void	ft_split_free(char	**str)
 {
@@ -25,16 +37,7 @@ void	ft_split_free(char	**str)
 	free(str);
 }
 
-void	error_detected(t_node *head, int check, char **str)
-{
-	free_list(head);
-	if (check == 1)
-		ft_split_free(str);
-	write(1, "Error\n", 6);
-	exit(1);
-}
-
-int	ft_atoi(char *str, t_node *head, int check, char **av)
+int	ft_atoi(char *str, t_node *head)
 {
 	unsigned int		i;
 	int					sign;
@@ -52,12 +55,12 @@ int	ft_atoi(char *str, t_node *head, int check, char **av)
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-			error_detected(head, check, av);
+			error_detected(head);
 		number = (str[i] - '0') + (number * 10);
 		i++;
 		if ((number > 2147483648 && sign == -1)
 			|| (number > 2147483647 && sign == 1))
-			error_detected(head, check, av);
+			error_detected(head);
 	}
 	return (number * sign);
 }
@@ -90,7 +93,7 @@ int	check_sorted(t_node *stack, int order)
 	return (1);
 }
 
-void	check_doubles(t_node *head, int check, char **av)
+void	check_doubles(t_node *head)
 {
 	t_node	*current;
 	t_node	*checker;
@@ -102,7 +105,7 @@ void	check_doubles(t_node *head, int check, char **av)
 		while (checker)
 		{
 			if (current->value == checker->value)
-				error_detected(head, check, av);
+				error_detected(head);
 			checker = checker->next;
 		}
 		current = current->next;

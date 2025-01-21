@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:53:05 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/20 21:26:01 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 09:18:19 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,20 @@ int	is_all_whitespace(char *str)
 		i++;
 	}
 	return (1);
+}
+
+void	error_detected_all(t_stack *stack, t_node *temp)
+{
+	free_list(temp);
+	free_list(stack->a);
+	free_list(stack->b);
+	write(1, "Error\n", 6);
+	exit(1);
+}
+
+void	error_detected(t_node *head)
+{
+	free_list(head);
+	write(2, "Error\n", 6);
+	exit(1);
 }
