@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:01:39 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/21 09:26:06 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 16:29:32 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_split_free(char	**str)
 	free(str);
 }
 
-int	ft_atoi(char *str, t_node *head)
+int	ft_atoi(char *str, t_node *head, int check, char **av)
 {
 	unsigned int		i;
 	int					sign;
@@ -46,8 +46,8 @@ int	ft_atoi(char *str, t_node *head)
 	i = 0;
 	sign = 1;
 	number = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
-		i++;
+	if ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+		error_detected(head, check, av);
 	if (str[i] == '-')
 		sign = -1;
 	if (str[i] == '+' || str[i] == '-')
@@ -55,12 +55,12 @@ int	ft_atoi(char *str, t_node *head)
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-			error_detected(head);
+			error_detected(head, check, av);
 		number = (str[i] - '0') + (number * 10);
 		i++;
 		if ((number > 2147483648 && sign == -1)
 			|| (number > 2147483647 && sign == 1))
-			error_detected(head);
+			error_detected(head, check, av);
 	}
 	return (number * sign);
 }
@@ -93,7 +93,7 @@ int	check_sorted(t_node *stack, int order)
 	return (1);
 }
 
-void	check_doubles(t_node *head)
+void	check_doubles(t_node *head, int check, char **av)
 {
 	t_node	*current;
 	t_node	*checker;
@@ -105,7 +105,7 @@ void	check_doubles(t_node *head)
 		while (checker)
 		{
 			if (current->value == checker->value)
-				error_detected(head);
+				error_detected(head, check, av);
 			checker = checker->next;
 		}
 		current = current->next;

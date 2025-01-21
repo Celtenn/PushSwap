@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:56:06 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/21 13:41:48 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:35:03 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	error_detected_all(t_stack *stack, t_node *temp);
 int		optimize_b_check(t_stack *stack, int numbers);
 int		check_sorted(t_node *stack, int order);
 char	**ft_split(char const *s, char c);
-int		ft_atoi(char *str, t_node *head);
-void	error_detected(t_node *head);
+int		ft_atoi(char *str, t_node *head, int check, char **av);
+void	error_detected(t_node *head, int check, char **av);
 int		is_all_whitespace(char *str);
-void	check_doubles(t_node *head);
+void	check_doubles(t_node *head, int check, char **av);
 int		list_size(t_node *head);
 int		after_sign(char *str);
 int		ft_strlen(char *str);

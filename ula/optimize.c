@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:53:05 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/21 09:18:19 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:38:05 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ void	error_detected_all(t_stack *stack, t_node *temp)
 	free_list(temp);
 	free_list(stack->a);
 	free_list(stack->b);
-	write(1, "Error\n", 6);
+	write(2, "Error\n", 6);
 	exit(1);
 }
 
-void	error_detected(t_node *head)
+void	error_detected(t_node *head, int check, char **av)
 {
+	if (check == 1)
+		ft_split_free(av);
 	free_list(head);
 	write(2, "Error\n", 6);
 	exit(1);

@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:01:50 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/21 10:18:56 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:39:23 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	helper_func(t_stack *stack, int check, char **av)
 {
 	int	value;
 
+	check_doubles(stack->a, check, av);
 	if (check == 1)
 		ft_split_free(av);
-	check_doubles(stack->a);
 	value = list_size(stack->a);
 	sort(stack, value);
 	free_list(stack->a);
@@ -78,16 +78,14 @@ void	push_swap(char **av, int check)
 		if (ft_strlen(av[i]) == 0 || is_all_whitespace(av[i])
 			|| after_sign(av[i]))
 		{
-			if (check == 1)
-				ft_split_free(av);
-			error_detected(stack.a);
+			error_detected(stack.a, check, av);
 		}
-		value = ft_atoi(av[i], stack.a);
+		value = ft_atoi(av[i], stack.a, check, av);
 		if (!add_node(&stack.a, value))
 		{
 			if (check == 1)
 				ft_split_free(av);
-			error_detected(stack.a);
+			error_detected(stack.a, check, av);
 		}
 	}
 	helper_func(&stack, check, av);
