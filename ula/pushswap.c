@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:01:50 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/21 09:53:05 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:18:56 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ int	list_size(t_node *list)
 	return (size);
 }
 
+void	helper_func(t_stack *stack, int check, char **av)
+{
+	int	value;
+
+	if (check == 1)
+		ft_split_free(av);
+	check_doubles(stack->a);
+	value = list_size(stack->a);
+	sort(stack, value);
+	free_list(stack->a);
+	free_list(stack->b);
+}
+
 void	push_swap(char **av, int check)
 {
 	t_stack	stack;
@@ -77,13 +90,7 @@ void	push_swap(char **av, int check)
 			error_detected(stack.a);
 		}
 	}
-	if (check == 1)
-		ft_split_free(av);
-	check_doubles(stack.a);
-	value = list_size(stack.a);
-	sort(&stack, value);
-	free_list(stack.a);
-	free_list(stack.b);
+	helper_func(&stack, check, av);
 }
 
 int	main(int ac, char **av)
