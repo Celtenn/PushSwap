@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 00:56:06 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/21 09:41:12 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 13:41:48 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,48 +30,40 @@ typedef struct s_stack
 	int		size_b;
 }	t_stack;
 
-// functions
+void	optimize_a_check(t_stack *stack, int numbers, int len);
+int		check_sorted_size(t_node *stack, int order, int size);
+void	error_detected_all(t_stack *stack, t_node *temp);
+int		optimize_b_check(t_stack *stack, int numbers);
+int		check_sorted(t_node *stack, int order);
+char	**ft_split(char const *s, char c);
+int		ft_atoi(char *str, t_node *head);
+void	error_detected(t_node *head);
+int		is_all_whitespace(char *str);
+void	check_doubles(t_node *head);
+int		list_size(t_node *head);
 int		after_sign(char *str);
 int		ft_strlen(char *str);
-int		is_all_whitespace(char *str);
-int		check_sorted_size(t_node *stack, int order, int size);
-void	optimize_a_check(t_stack *stack, int numbers, int len);
-int		optimize_b_check(t_stack *stack, int numbers);
-int		stack_a_check(t_stack *stack, int len);
-int		stack_b_check(t_stack *stack, int len);
-void	error_detected(t_node *head);
-void	error_detected_all(t_stack *stack, t_node *temp);
-int		ft_atoi(char *str, t_node *head);
-int		check_sorted(t_node *stack, int order);
-void	check_doubles(t_node *head);
-char	**ft_split(char const *s, char c);
-int		list_size(t_node *head);
 
-// Stack Manipulation Functions
-void	push_a(t_stack *stack);
-void	push_b(t_stack *stack);
+void	reverse_rotate_b(t_stack *stack);
+void	reverse_rotate_a(t_stack *stack);
 void	rotate_a(t_stack *stack);
 void	rotate_b(t_stack *stack);
-void	reverse_rotate_a(t_stack *stack);
-void	reverse_rotate_b(t_stack *stack);
+void	push_a(t_stack *stack);
+void	push_b(t_stack *stack);
 void	swap_a(t_stack *stack);
 void	swap_b(t_stack *stack);
 
-// Sorting Functions
-void	temporary_sort(t_node *head);
-void	three_numbers(t_stack *three);
-void	three_numbers_stack_a(t_stack *three, int a, int b, int c);
-int		sort(t_stack *stack, int size);
-int		ft_push(t_stack *stack, int len, int push);
-void	quicksort_three_stack_a(t_stack *stack, int len);
-int		sort_three_b(t_stack *stack, int len);
-int		pivot_of_numbers(int *pivot, t_node *stack, int size);
-int		quicksort_stack_a(t_stack *stack, int len, int count_r);
 int		quicksort_stack_b(t_stack *stack, int len, int count_r);
+int		quicksort_stack_a(t_stack *stack, int len, int count_r);
+void	quicksort_three_stack_a(t_stack *stack, int len);
+int		ft_push(t_stack *stack, int len, int push);
+int		sort_three_b(t_stack *stack, int len);
+int		sort(t_stack *stack, int size);
+void	three_numbers(t_stack *three);
+void	temporary_sort(t_node *head);
 
-// Utility Functions
 int		add_node(t_node **head, int value);
-void	free_list(t_node *head);
 void	ft_split_free(char	**str);
+void	free_list(t_node *head);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 01:02:15 by idkahram          #+#    #+#             */
-/*   Updated: 2025/01/16 01:02:17 by idkahram         ###   ########.fr       */
+/*   Updated: 2025/01/21 13:39:58 by idkahram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,6 @@ void	temporary_sort(t_node *head)
 	}
 }
 
-void	three_numbers(t_stack *three)
-{
-	int	a;
-	int	b;
-	int	c;
-
-	a = three->a->value;
-	b = three->a->next->value;
-	c = three->a->next->next->value;
-	three_numbers_stack_a(three, a, b, c);
-}
-
 void	three_numbers_stack_a(t_stack *three, int a, int b, int c)
 {
 	if (!three || !three->a || !three->a->next || !three->a->next->next)
@@ -70,6 +58,18 @@ void	three_numbers_stack_a(t_stack *three, int a, int b, int c)
 	}
 	else if (a < b && a > c && b > c)
 		reverse_rotate_a(three);
+}
+
+void	three_numbers(t_stack *three)
+{
+	int	a;
+	int	b;
+	int	c;
+
+	a = three->a->value;
+	b = three->a->next->value;
+	c = three->a->next->next->value;
+	three_numbers_stack_a(three, a, b, c);
 }
 
 int	sort(t_stack *stack, int size)

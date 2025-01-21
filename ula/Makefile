@@ -24,9 +24,10 @@ $(NAME): $(OBJS)
 all : $(NAME)
 
 clean :
-	@rm -f $(NAME) $(OBJS)
+	@rm -f $(OBJS)
 
-fclean : clean
+fclean : clean 
+	@rm -f $(NAME)
 
 re : fclean all
 
