@@ -285,35 +285,50 @@ void	print_sorted_env(char **env)
 	free(sorted);
 }
 
+char *remove_quotes(const char *s)
+{
+	size_t len = strlen(s);
+	char *res = malloc(len + 1);
+	if (!res) return NULL;
+
+	int j = 0;
+	for (int i = 0; s[i]; i++)
+	{
+		if (s[i] != '"' && s[i] != '\'')  // çift ve tek tırnakları atla
+			res[j++] = s[i];
+	}
+	res[j] = '\0';
+	return res;
+}
+
 int builtin_export(char **argv, t_shell *shell)
 {
 	int i = 1;
 
 	if (!argv[1])
 	{
-		print_sorted_env(shell->env);  // 👈 birazdan tanımlayacağız
+		print_sorted_env(shell->env);
 		g_exit_status = 0;
 		return 0;
 	}
+
 	while (argv[i])
 	{
 		char *equal = strchr(argv[i], '=');
-		if (!equal)
-		{
-			fprintf(stderr, "export: invalid format: %s\n", argv[i]);
-			i++;
-			continue;
-		}
+		char *name = NULL;
 
-		// Değişken adı ve değeri ayrılır
-		int name_len = equal - argv[i];
-		char *name = strndup(argv[i], name_len);
+		if (equal)
+			name = strndup(argv[i], equal - argv[i]);
+		else
+			name = strdup(argv[i]); // export VAR
+
 		if (!name) return 1;
 
-		// Eskiyi sil
+		// Sil: Aynı isimli varsa önce kaldır
 		for (int j = 0; shell->env[j]; j++)
 		{
-			if (strncmp(shell->env[j], name, name_len) == 0 && shell->env[j][name_len] == '=')
+			if (strncmp(shell->env[j], name, strlen(name)) == 0 &&
+				shell->env[j][strlen(name)] == '=')
 			{
 				free(shell->env[j]);
 				for (int k = j; shell->env[k]; k++)
@@ -322,12 +337,29 @@ int builtin_export(char **argv, t_shell *shell)
 			}
 		}
 
-		// Yeniyi ekle
+		// Yeni satır oluştur
+		char *new_entry = NULL;
+		if (equal)
+		{
+			char *cleaned = remove_quotes(argv[i]);
+			new_entry = strdup(cleaned);
+			free(cleaned);
+		}
+		else
+		{
+			new_entry = malloc(strlen(name) + 2); // VAR=
+			if (!new_entry) { free(name); return 1; }
+			sprintf(new_entry, "%s=", name);
+		}
+
+		// Ekle
 		int count = 0;
 		while (shell->env[count])
 			count++;
+
 		shell->env = realloc(shell->env, sizeof(char *) * (count + 2));
-		shell->env[count] = strdup(argv[i]);
+		if (!shell->env) { free(name); free(new_entry); return 1; }
+		shell->env[count] = new_entry;
 		shell->env[count + 1] = NULL;
 
 		free(name);

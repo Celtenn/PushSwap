@@ -32,6 +32,9 @@ char *get_var_value(const char *name, t_shell *shell)
 
 char *expand_variables(const char *input, t_shell *shell)
 {
+	if (!strchr(input, '$'))
+		return strdup(input);  // hiçbir şey genişletilmeden döner
+
 	char *result = calloc(1, 1);
 	int i = 0;
 

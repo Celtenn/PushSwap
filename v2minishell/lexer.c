@@ -68,12 +68,31 @@ t_token	*tokenize(char *input, t_shell *shell)
 		if (!input[i])
 			break ;
 
-		if (input[i] == '\'' || input[i] == '"')
+		if (input[i] == '"') // ÇİFT TIRNAK: expand edilir
 		{
 			int new_i = handle_quotes(input, i, &word);
 			if (new_i == -1)
 				return (free_tokens(tokens), NULL);
-			add_token(&tokens, word, T_WORD);
+
+			char *expanded = expand_variables(word, shell);  // ✅ genişlet
+			if (!expanded || *expanded == '\0')
+			{
+				free(word);
+				free(expanded);
+				i = new_i;
+				continue;
+			}
+			add_token(&tokens, expanded, T_WORD);
+			free(word);
+			free(expanded);
+			i = new_i;
+		}
+		else if (input[i] == '\'') // TEK TIRNAK: olduğu gibi al
+		{
+			int new_i = handle_quotes(input, i, &word);
+			if (new_i == -1)
+				return (free_tokens(tokens), NULL);
+			add_token(&tokens, word, T_WORD);  // ❌ expand edilmez
 			free(word);
 			i = new_i;
 		}
