@@ -1,12 +1,9 @@
 #include "minishell.h"
 #include "parser.h"
 #include "lexer.h"
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include <ctype.h>
 
-extern int g_exit_status; // $? için global değişken
+extern int g_exit_status;
 
 char *get_var_value(const char *name, t_shell *shell)
 {
@@ -33,7 +30,7 @@ char *get_var_value(const char *name, t_shell *shell)
 char *expand_variables(const char *input, t_shell *shell)
 {
 	if (!strchr(input, '$'))
-		return strdup(input);  // hiçbir şey genişletilmeden döner
+		return strdup(input);
 
 	char *result = calloc(1, 1);
 	int i = 0;
@@ -43,7 +40,7 @@ char *expand_variables(const char *input, t_shell *shell)
 		if (input[i] == '$' && input[i + 1])
 		{
 			i++;
-			if (input[i] == '?')  // ✅ ÖZEL DURUM
+			if (input[i] == '?')
 			{
 				char *value = get_var_value("?", shell);
 				if (!value) value = strdup("");
@@ -57,9 +54,9 @@ char *expand_variables(const char *input, t_shell *shell)
 				result = temp;
 				strcat(result, value);
 				free(value);
-				i++;  // '?' karakterini geç
+				i++;  // ? karakterini geçiyorum
 			}
-			else if (isalnum(input[i]) || input[i] == '_')  // normal $VAR
+			else if (isalnum(input[i]) || input[i] == '_')
 			{
 				int start = i;
 				while (isalnum(input[i]) || input[i] == '_')
@@ -84,7 +81,7 @@ char *expand_variables(const char *input, t_shell *shell)
 			}
 			else
 			{
-				// $ ardından geçersiz karakter geldi → olduğu gibi al
+				// $ karakterinin ardından geçersiz karakter geldiğinde dümdüz olduğu gibi alıyoruz
 				char temp[3] = {'$', input[i], '\0'};
 				size_t new_len = strlen(result) + 3;
 				char *temp_result = realloc(result, new_len);

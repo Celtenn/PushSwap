@@ -1,24 +1,16 @@
 #include "minishell.h"
 #include "parser.h"
-#include <unistd.h>
-#include <stdlib.h>
 #include <sys/wait.h>
-#include <string.h>
-#include <stdio.h>
-#include <fcntl.h>  // open()
-#include <unistd.h> // dup2(), close()
-#include <readline/readline.h>
-
 
 static char *find_executable(char *cmd, t_shell *shell)
 {
 	if (strchr(cmd, '/'))
 		return strdup(cmd); // mutlak veya ./ bağıl yol
 
-	char *path = get_var_value("PATH", shell);  // ✅ Doğru kaynaktan oku
+	char *path = get_var_value("PATH", shell);  // doğruca kaynaktan oku
 	if (!path || !*path)
 	{
-		free(path);  // get_var_value malloc ile dönüyor, temizle
+		free(path);  // get_var_value malloc ile dönüyor temizle
 		return NULL;
 	}
 
@@ -62,9 +54,9 @@ int create_heredoc_pipe(const char *delimiter, t_shell *shell)
 	if (pid == -1)
 		return -1;
 
-	if (pid == 0) // CHILD → heredoc okuyucu
+	if (pid == 0) // CHILD -> heredoc okuyucu
 	{
-		signal(SIGINT, SIG_DFL); // Ctrl-C → normal öldürsün
+		signal(SIGINT, SIG_DFL); // Ctrl-C -> normal öldürsün
 
 		close(pipefd[0]); // sadece yaz
 		while (1)
@@ -119,7 +111,7 @@ int prepare_heredocs(t_cmd *cmd, t_shell *shell)
 	}
 	return 0;
 }
-// apply_redirections fonksiyonu: T_HEREDOC dahil
+
 static void apply_redirections(t_redir *redir)
 {
 	while (redir)
@@ -158,7 +150,7 @@ static void exec_command(t_cmd *cmd, t_shell *shell)
 {
 	if (!cmd->argv || !cmd->argv[0] || cmd->argv[0][0] == '\0')
         exit(0);
-	apply_redirections(cmd->redirs);  // <<< Buraya entegre ettik
+	apply_redirections(cmd->redirs);
 
 	char *path = find_executable(cmd->argv[0], shell);
 	if (!path)
@@ -188,7 +180,7 @@ void execute_commands(t_list *cmds, t_shell *shell)
 		if (is_builtin(cmd->argv[0]) && !cmd->pipe_next)
 		{
 			apply_redirections(cmd->redirs);
-			exec_builtin(cmd->argv, shell);  // 🔧 shell artık parametre olarak veriliyor
+			exec_builtin(cmd->argv, shell);  // shell artık parametre olarak veriliyor
 			return;
 		}
 		if (prepare_heredocs(cmd, shell) < 0)

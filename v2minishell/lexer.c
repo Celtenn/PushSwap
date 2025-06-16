@@ -1,10 +1,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "minishell.h"
-#include <stdlib.h>
 #include <ctype.h>
-#include <string.h>
-#include <stdio.h>
 
 void	free_tokens(t_token *tokens)
 {
@@ -68,13 +65,13 @@ t_token	*tokenize(char *input, t_shell *shell)
 		if (!input[i])
 			break ;
 
-		if (input[i] == '"') // ÇİFT TIRNAK: expand edilir
+		if (input[i] == '"') // çift tırnağı expand ediyorum
 		{
 			int new_i = handle_quotes(input, i, &word);
 			if (new_i == -1)
 				return (free_tokens(tokens), NULL);
 
-			char *expanded = expand_variables(word, shell);  // ✅ genişlet
+			char *expanded = expand_variables(word, shell);  // genişletiyoruz
 			if (!expanded || *expanded == '\0')
 			{
 				free(word);
@@ -87,12 +84,12 @@ t_token	*tokenize(char *input, t_shell *shell)
 			free(expanded);
 			i = new_i;
 		}
-		else if (input[i] == '\'') // TEK TIRNAK: olduğu gibi al
+		else if (input[i] == '\'') // tek tırnağı dümdüz alıyorum
 		{
 			int new_i = handle_quotes(input, i, &word);
 			if (new_i == -1)
 				return (free_tokens(tokens), NULL);
-			add_token(&tokens, word, T_WORD);  // ❌ expand edilmez
+			add_token(&tokens, word, T_WORD);  // expand etmicez
 			free(word);
 			i = new_i;
 		}
@@ -117,13 +114,14 @@ t_token	*tokenize(char *input, t_shell *shell)
 			{
 				free(word);
 				free(expanded);
-				continue;  // boş değişken varsa token ekleme
+				continue;  // boş değişken varsa token eklemiyorum
 			}
 			add_token(&tokens, expanded, T_WORD);
 			free(word);
 			free(expanded);
 		}
 	}
-	return tokens;
+	if (!tokens) // hiç token oluşturulmadıysa
+    	return (NULL);
+	return (tokens);
 }
-

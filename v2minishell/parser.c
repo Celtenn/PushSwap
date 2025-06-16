@@ -1,5 +1,4 @@
 #include "parser.h"
-#include <string.h>
 
 static int	count_args(t_token *start)
 {
@@ -84,7 +83,6 @@ static t_cmd	*parse_single_command(t_token **current)
 	return cmd;
 }
 
-// Liste işlemleri (basit)
 static t_list	*ft_lstnew(void *content)
 {
 	t_list	*node = malloc(sizeof(t_list));
@@ -153,6 +151,18 @@ void	clear_cmd_list(t_list *cmds)
 	}
 }
 
+int is_all_spaces(const char *s)
+{
+	while (*s)
+	{
+		if (!(*s == ' ' || *s == '\t' || *s == '\n'
+			|| *s == '\v' || *s == '\f' || *s == '\r'))
+			return 0;
+		s++;
+	}
+	return 1;
+}
+
 int	parse_input(char *input, t_shell *shell)
 {
 	t_token	*tokens;
@@ -163,7 +173,9 @@ int	parse_input(char *input, t_shell *shell)
 		if (shell->cmds)
 			clear_cmd_list(shell->cmds);
 		shell->cmds = NULL;
-		return 0;
+		if (input && is_all_spaces(input))
+			return (1);
+		return (0);
 	}
 
 	shell->cmds = build_command_list(tokens);

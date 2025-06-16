@@ -33,8 +33,6 @@ void	free_str_array(char **arr);
 void execute_commands(t_list *cmds, t_shell *shell);
 char *expand_variables(const char *input, t_shell *shell);
 
-// Builtins
-
 int builtin_cd(char **argv, t_shell *shell);
 int	builtin_exit(char **argv, t_shell *shell);
 int builtin_echo(char **argv);

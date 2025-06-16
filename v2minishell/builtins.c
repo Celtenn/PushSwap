@@ -1,8 +1,4 @@
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 extern int g_exit_status;
 
@@ -49,7 +45,7 @@ void	update_env_var(const char *entry, t_shell *shell)
 	if (!name)
 		return;
 
-	// Eski varsa sil
+	// Eski varsa siliyorum
 	for (int i = 0; shell->env[i]; i++)
 	{
 		if (strncmp(shell->env[i], name, name_len) == 0 && shell->env[i][name_len] == '=')
@@ -61,7 +57,7 @@ void	update_env_var(const char *entry, t_shell *shell)
 		}
 	}
 
-	// Yeniyi ekle
+	// Yeniyi ekliyorum
 	int count = 0;
 	while (shell->env[count])
 		count++;
@@ -76,7 +72,7 @@ int	builtin_cd(char **argv, t_shell *shell)
 {
 	char	*target;
 	char	cwd[4096];
-	char	*oldpwd = get_var_value("PWD", shell);  // shell->env içinden oku
+	char	*oldpwd = get_var_value("PWD", shell);
 
 	if (!oldpwd)
 		oldpwd = getcwd(NULL, 0);  // fallback
@@ -98,7 +94,7 @@ int	builtin_cd(char **argv, t_shell *shell)
 			free(target);
 			return 1;
 		}
-		printf("%s\n", target);  // bash uyumu
+		printf("%s\n", target);  // bash uyumu için yaptım
 	}
 	else
 		target = strdup(argv[1]);
@@ -111,7 +107,7 @@ int	builtin_cd(char **argv, t_shell *shell)
 		return 1;
 	}
 
-	// Güncel dizini oku
+	// Güncel dizini okuyorum
 	if (getcwd(cwd, sizeof(cwd)))
 	{
 		char *line1 = malloc(strlen("OLDPWD=") + strlen(oldpwd) + 1);
@@ -154,7 +150,7 @@ int	builtin_exit(char **argv, t_shell *shell)
 	}
 
 	int status = atoi(argv[1]);
-	exit(status & 0xFF);  // sadece son 8 bit
+	exit(status & 0xFF);  // sadece son 8 biti alıyoruz
 }
 
 int builtin_echo(char **argv)
@@ -189,7 +185,7 @@ int is_builtin(char *cmd)
 		strcmp(cmd, "echo") == 0 ||
 		strcmp(cmd, "pwd") == 0 ||
 		strcmp(cmd, "env") == 0 ||
-		strcmp(cmd, "export") == 0 ||   // ✅ BU SATIR VAR MI?
+		strcmp(cmd, "export") == 0 ||
 		strcmp(cmd, "unset") == 0
 	);
 }
@@ -253,7 +249,7 @@ void	print_sorted_env(char **env)
 		sorted[i] = strdup(env[i]);
 	sorted[count] = NULL;
 
-	// Bubble sort
+	// klasik bubble sort yapıyoruz
 	for (int i = 0; i < count - 1; i++)
 	{
 		for (int j = 0; j < count - i - 1; j++)
@@ -267,7 +263,7 @@ void	print_sorted_env(char **env)
 		}
 	}
 
-	// declare -x biçiminde yazdır
+	// declare -x biçiminde yazdırıyorum
 	for (int i = 0; i < count; i++)
 	{
 		char *eq = strchr(sorted[i], '=');
@@ -275,7 +271,7 @@ void	print_sorted_env(char **env)
 		{
 			*eq = '\0';
 			printf("declare -x %s=\"%s\"\n", sorted[i], eq + 1);
-			*eq = '='; // geri koy
+			*eq = '=';
 		}
 		else
 			printf("declare -x %s\n", sorted[i]);
@@ -294,7 +290,7 @@ char *remove_quotes(const char *s)
 	int j = 0;
 	for (int i = 0; s[i]; i++)
 	{
-		if (s[i] != '"' && s[i] != '\'')  // çift ve tek tırnakları atla
+		if (s[i] != '"' && s[i] != '\'')  // çift ve tek tırnakları atlıyorum
 			res[j++] = s[i];
 	}
 	res[j] = '\0';
@@ -320,11 +316,12 @@ int builtin_export(char **argv, t_shell *shell)
 		if (equal)
 			name = strndup(argv[i], equal - argv[i]);
 		else
-			name = strdup(argv[i]); // export VAR
+			name = strdup(argv[i]); // export VAR için yaptım
 
-		if (!name) return 1;
+		if (!name)
+			return (1);
 
-		// Sil: Aynı isimli varsa önce kaldır
+		// aynı isimli varsa önceden kaldırıyorum
 		for (int j = 0; shell->env[j]; j++)
 		{
 			if (strncmp(shell->env[j], name, strlen(name)) == 0 &&
@@ -337,7 +334,7 @@ int builtin_export(char **argv, t_shell *shell)
 			}
 		}
 
-		// Yeni satır oluştur
+		// yeni satır oluşturuyorum
 		char *new_entry = NULL;
 		if (equal)
 		{
@@ -352,7 +349,7 @@ int builtin_export(char **argv, t_shell *shell)
 			sprintf(new_entry, "%s=", name);
 		}
 
-		// Ekle
+		// ekle
 		int count = 0;
 		while (shell->env[count])
 			count++;
