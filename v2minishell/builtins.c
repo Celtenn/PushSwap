@@ -6,16 +6,16 @@ static int	is_numeric(const char *str)
 {
 	int i = 0;
 	if (!str)
-		return 0;
+		return (0);
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i])
 	{
 		if (!isdigit((unsigned char)str[i]))
-			return 0;
+			return (0);
 		i++;
 	}
-	return 1;
+	return (1);
 }
 
 /*int builtin_cd(char **argv)
@@ -23,15 +23,15 @@ static int	is_numeric(const char *str)
 	if (!argv[1]) {
 		fprintf(stderr, "cd: missing argument\n");
 		g_exit_status = 1;
-		return 1;
+		return (1);
 	}
 	if (chdir(argv[1]) != 0) {
 		perror("cd");
 		g_exit_status = 1;
-		return 1;
+		return (1);
 	}
 	g_exit_status = 0;
-	return 0;
+	return (0);
 }*/
 
 void	update_env_var(const char *entry, t_shell *shell)
@@ -79,7 +79,7 @@ int	builtin_cd(char **argv, t_shell *shell)
 	if (!oldpwd)
 	{
 		perror("getcwd");
-		return 1;
+		return (1);
 	}
 
 	if (!argv[1] || strcmp(argv[1], "~") == 0)
@@ -92,7 +92,7 @@ int	builtin_cd(char **argv, t_shell *shell)
 			fprintf(stderr, "cd: OLDPWD not set\n");
 			free(oldpwd);
 			free(target);
-			return 1;
+			return (1);
 		}
 		printf("%s\n", target);  // bash uyumu için yaptım
 	}
@@ -104,7 +104,7 @@ int	builtin_cd(char **argv, t_shell *shell)
 		perror("cd");
 		free(oldpwd);
 		free(target);
-		return 1;
+		return (1);
 	}
 
 	// Güncel dizini okuyorum
@@ -125,7 +125,7 @@ int	builtin_cd(char **argv, t_shell *shell)
 
 	free(oldpwd);
 	free(target);
-	return 0;
+	return (0);
 }
 
 int	builtin_exit(char **argv, t_shell *shell)
@@ -146,7 +146,7 @@ int	builtin_exit(char **argv, t_shell *shell)
 	{
 		fprintf(stderr, "exit: too many arguments\n");
 		g_exit_status = 1;
-		return 1;
+		return (1);
 	}
 
 	int status = atoi(argv[1]);
@@ -174,7 +174,7 @@ int builtin_echo(char **argv)
 		printf("\n");
 
 	g_exit_status = 0;
-	return 0;
+	return (0);
 }
 
 int is_builtin(char *cmd)
@@ -193,7 +193,7 @@ int is_builtin(char *cmd)
 int exec_builtin(char **argv, t_shell *shell)
 {
 	if (!argv || !argv[0])
-		return 1;
+		return (1);
 
 	if (strcmp(argv[0], "cd") == 0)
 		return builtin_cd(argv, shell);
@@ -210,7 +210,7 @@ int exec_builtin(char **argv, t_shell *shell)
 	else if (strcmp(argv[0], "unset") == 0)
 		return builtin_unset(argv, shell);
 
-	return 1;
+	return (1);
 }
 
 
@@ -224,7 +224,7 @@ int builtin_pwd(char **argv)
 	else
 		perror("pwd");
 	g_exit_status = 0;
-	return 0;
+	return (0);
 }
 
 int builtin_env(char **argv, char **env)
@@ -233,7 +233,7 @@ int builtin_env(char **argv, char **env)
 	for (int i = 0; env[i]; i++)
 		printf("%s\n", env[i]);
 	g_exit_status = 0;
-	return 0;
+	return (0);
 }
 
 void	print_sorted_env(char **env)
@@ -305,7 +305,7 @@ int builtin_export(char **argv, t_shell *shell)
 	{
 		print_sorted_env(shell->env);
 		g_exit_status = 0;
-		return 0;
+		return (0);
 	}
 
 	while (argv[i])
@@ -345,7 +345,7 @@ int builtin_export(char **argv, t_shell *shell)
 		else
 		{
 			new_entry = malloc(strlen(name) + 2); // VAR=
-			if (!new_entry) { free(name); return 1; }
+			if (!new_entry) { free(name); return (1); }
 			sprintf(new_entry, "%s=", name);
 		}
 
@@ -355,7 +355,7 @@ int builtin_export(char **argv, t_shell *shell)
 			count++;
 
 		shell->env = realloc(shell->env, sizeof(char *) * (count + 2));
-		if (!shell->env) { free(name); free(new_entry); return 1; }
+		if (!shell->env) { free(name); free(new_entry); return (1); }
 		shell->env[count] = new_entry;
 		shell->env[count + 1] = NULL;
 
@@ -363,7 +363,7 @@ int builtin_export(char **argv, t_shell *shell)
 		i++;
 	}
 	g_exit_status = 0;
-	return 0;
+	return (0);
 }
 
 int builtin_unset(char **argv, t_shell *shell)
@@ -387,5 +387,5 @@ int builtin_unset(char **argv, t_shell *shell)
 		i++;
 	}
 	g_exit_status = 0;
-	return 0;
+	return (0);
 }

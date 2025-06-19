@@ -7,10 +7,10 @@ static char *find_executable(char *cmd, t_shell *shell)
 	if (strchr(cmd, '/'))
 		return strdup(cmd); // mutlak veya ./ bağıl yol
 
-	char *path = get_var_value("PATH", shell);  // doğruca kaynaktan oku
+	char *path = get_var_value("PATH", shell);  // doğruca kaynaktan okumamız lazım yoksa hata
 	if (!path || !*path)
 	{
-		free(path);  // get_var_value malloc ile dönüyor temizle
+		free(path);  // get_var_value malloc ile dönüyor temizlemeliyiz
 		return NULL;
 	}
 
@@ -42,21 +42,21 @@ static char *find_executable(char *cmd, t_shell *shell)
 }
 
 
-// Yardımcı: heredoc içeriğini pipe ile ver
+// Yardımcı: heredoc içeriğini pipe ile veriyoz
 // Sadece fonksiyon içinde tanımlı jump buffer
-int create_heredoc_pipe(const char *delimiter, t_shell *shell)
+int create_heredoc_pipe(const char *delimiter, t_shell *shell, int quoted)
 {
 	int pipefd[2];
 	if (pipe(pipefd) < 0)
-		return -1;
+		return (-1);
 
 	pid_t pid = fork();
 	if (pid == -1)
-		return -1;
+		return (-1);
 
-	if (pid == 0) // CHILD -> heredoc okuyucu
+	if (pid == 0) // child -> heredoc okuyucu
 	{
-		signal(SIGINT, SIG_DFL); // Ctrl-C -> normal öldürsün
+		signal(SIGINT, SIG_DFL);
 
 		close(pipefd[0]); // sadece yaz
 		while (1)
@@ -68,8 +68,8 @@ int create_heredoc_pipe(const char *delimiter, t_shell *shell)
 				break;
 			}
 
-			// quote kontrolü yapıyorsan expand etme
-			char *expanded = expand_variables(line, shell);
+			// quote kontrolü yapıyorsak expand etmiyoruz
+			char *expanded = quoted ? strdup(line) : expand_variables(line, shell);
 			write(pipefd[1], expanded, strlen(expanded));
 			write(pipefd[1], "\n", 1);
 			free(line);
@@ -89,7 +89,7 @@ int create_heredoc_pipe(const char *delimiter, t_shell *shell)
 	{
 		close(pipefd[0]);
 		g_exit_status = 130;
-		return -1;
+		return (-1);
 	}
 	return pipefd[0];  // pipe read end
 }
@@ -103,13 +103,13 @@ int prepare_heredocs(t_cmd *cmd, t_shell *shell)
 	{
 		if (r->type == T_HEREDOC)
 		{
-			r->heredoc_fd = create_heredoc_pipe(r->filename, shell);
+			r->heredoc_fd = create_heredoc_pipe(r->filename, shell, r->quoted_delim);
 			if (r->heredoc_fd < 0)
-				return -1; // heredoc iptal edildi
+				return (-1); // heredoc iptal ediyoz
 		}
 		r = r->next;
 	}
-	return 0;
+	return (0);
 }
 
 static void apply_redirections(t_redir *redir)
@@ -166,10 +166,18 @@ static void exec_command(t_cmd *cmd, t_shell *shell)
 
 void execute_commands(t_list *cmds, t_shell *shell)
 {
-	int		pipefd[2];
-	int		prev_read = -1;
-	pid_t	pid;
-	t_cmd	*cmd;
+	t_list	*tmp = cmds;
+	while (tmp)
+	{
+		if (prepare_heredocs((t_cmd *)tmp->content, shell) < 0)
+			return;  // heredoc Ctrl-C ile kesildi
+		tmp = tmp->next;
+	}
+
+	int pipefd[2];
+	int prev_read = -1;
+	pid_t pid;
+	t_cmd *cmd;
 
 	while (cmds)
 	{
@@ -180,19 +188,15 @@ void execute_commands(t_list *cmds, t_shell *shell)
 		if (is_builtin(cmd->argv[0]) && !cmd->pipe_next)
 		{
 			apply_redirections(cmd->redirs);
-			exec_builtin(cmd->argv, shell);  // shell artık parametre olarak veriliyor
+			exec_builtin(cmd->argv, shell);
 			return;
 		}
-		if (prepare_heredocs(cmd, shell) < 0)
-		{
-			perror("heredoc");
-			return;
-		}
+
 		pid = fork();
-		if (pid == 0) // child
+		if (pid == 0)
 		{
-			signal(SIGINT, SIG_DFL);    // Ctrl-C varsayılan (örn: cat durur)
-			signal(SIGQUIT, SIG_DFL);   // Ctrl-\ varsayılan (örn: cat "Quit" yazar)
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 
 			if (prev_read != -1)
 			{
@@ -205,13 +209,12 @@ void execute_commands(t_list *cmds, t_shell *shell)
 				dup2(pipefd[1], STDOUT_FILENO);
 				close(pipefd[1]);
 			}
-			apply_redirections(cmd->redirs);  // redirection child’ta da uygulanmalı
+			apply_redirections(cmd->redirs); // redirection childda da uygulanmalı
 			if (is_builtin(cmd->argv[0]))
 				exec_builtin(cmd->argv, shell);
 			else
 				exec_command(cmd, shell);
-
-			exit(0);  // <- unutma, child çıkmalı
+			exit(0); // child çıkmalı
 		}
 		else if (pid < 0)
 		{
@@ -236,12 +239,3 @@ void execute_commands(t_list *cmds, t_shell *shell)
 			g_exit_status = WEXITSTATUS(status);
 	}
 }
-
-
-/*int status;
-while (wait(&status) > 0)
-{
-	if (WIFEXITED(status))
-		g_exit_status = WEXITSTATUS(status);
-}
-*/

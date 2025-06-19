@@ -9,6 +9,7 @@ typedef struct s_redir
 	char			*filename;
 	int				type;
 	int heredoc_fd;  // heredoc pipe read end
+	int				quoted_delim;
 	struct s_redir	*next;
 }	t_redir;
 
