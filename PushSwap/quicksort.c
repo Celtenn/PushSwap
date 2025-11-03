@@ -1,0 +1,148 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quicksort.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: idkahram <idkahram@student.42kocaeli.co    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 01:02:05 by idkahram          #+#    #+#             */
+/*   Updated: 2025/01/21 09:17:04 by idkahram         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+int	pivot_of_numbers_a(int *pivot, t_stack *head, int size)
+{
+	t_node	*temporaire_stack;
+	t_node	*current;
+	int		i;
+
+	i = 0;
+	temporaire_stack = NULL;
+	if (head->a == NULL)
+		return (0);
+	current = head->a;
+	while (current != NULL && i++ < size)
+	{
+		if (!add_node(&temporaire_stack, current->value))
+			error_detected_all(head, temporaire_stack);
+		current = current->next;
+	}
+	temporary_sort(temporaire_stack);
+	i = 0;
+	current = temporaire_stack;
+	while (i++ < size / 2)
+		current = current->next;
+	*pivot = current->value;
+	free_list(temporaire_stack);
+	return (1);
+}
+
+int	pivot_of_numbers_b(int *pivot, t_stack *head, int size)
+{
+	t_node	*temporaire_stack;
+	t_node	*current;
+	int		i;
+
+	i = 0;
+	temporaire_stack = NULL;
+	if (head->b == NULL)
+		return (0);
+	current = head->b;
+	while (current != NULL && i++ < size)
+	{
+		if (!add_node(&temporaire_stack, current->value))
+			error_detected_all(head, temporaire_stack);
+		current = current->next;
+	}
+	temporary_sort(temporaire_stack);
+	i = 0;
+	current = temporaire_stack;
+	while (i++ < size / 2)
+		current = current->next;
+	*pivot = current->value;
+	free_list(temporaire_stack);
+	return (1);
+}
+
+int	stack_ab_check(t_stack *stack, int len, int check)
+{
+	if (check == 1)
+	{
+		if (check_sorted(stack->a, 0) == 1)
+			return (1);
+		if (len <= 3)
+		{
+			quicksort_three_stack_a(stack, len);
+			return (1);
+		}
+	}
+	else
+	{
+		if (check_sorted(stack->b, 1) == 1)
+		{
+			while (len--)
+				push_a(stack);
+			return (1);
+		}
+		if (len <= 3)
+		{
+			sort_three_b(stack, len);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int	quicksort_stack_a(t_stack *stack, int len, int count_r)
+{
+	int	pivot;
+	int	numbers;
+
+	numbers = 0;
+	if (stack_ab_check(stack, len, 1))
+		return (1);
+	if (len > 5)
+		optimize_a_check(stack, numbers, len);
+	numbers = len;
+	if (!pivot_of_numbers_a(&pivot, stack, len))
+		return (0);
+	while (len != (numbers / 2 + numbers % 2))
+	{
+		if (stack->a->value < pivot && len--)
+			push_b(stack);
+		else if (++count_r)
+			rotate_a(stack);
+	}
+	while (numbers / 2 + numbers % 2 != stack->size_a && count_r--)
+		reverse_rotate_a(stack);
+	return (quicksort_stack_a(stack, numbers / 2 + numbers % 2, 0)
+		&& quicksort_stack_b(stack, numbers / 2, 0));
+}
+
+int	quicksort_stack_b(t_stack *stack, int len, int count_r)
+{
+	int	pivot;
+	int	numbers;
+
+	numbers = 0;
+	if (stack_ab_check(stack, len, 0))
+		return (1);
+	if (optimize_b_check(stack, numbers))
+		return (1);
+	numbers = len;
+	if (!pivot_of_numbers_b(&pivot, stack, len))
+		return (0);
+	while (len != numbers / 2)
+	{
+		if (stack->b->value >= pivot && len--)
+			push_a(stack);
+		else if (++count_r)
+			rotate_b(stack);
+	}
+	while (numbers / 2 != stack->size_b && count_r--)
+		reverse_rotate_b(stack);
+	return (quicksort_stack_a(stack, numbers / 2 + numbers % 2, 0)
+		&& quicksort_stack_b(stack, numbers / 2, 0));
+}
