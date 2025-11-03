@@ -19,18 +19,18 @@
 
 **PushSwap** projesi, 42 okul müfredatında yer alan bir algoritma optimizasyon projesidir. Amaç, iki yığın (stack A ve stack B) ve sınırlı komut seti kullanarak verilen tamsayı dizisini mümkün olan en az komutla sıralamaktır.
 
-Proje hem doğru çalışır olmayı hem de operasyon sayısını minimize etmeyi hedefler. Çözüm, diziyi küçük parçalara bölme, uygun rotasyonlar ve eleman aktarımları ile etkin bir şekilde sıralama stratejileri içerir.
+Bu proje, **QuickSort** benzeri bir böl-ve-fethet (divide and conquer) yaklaşımıyla sıralama işlemini optimize eder. Diziyi küçük alt dizilere bölerek her alt diziyi uygun pivot seçimleriyle sıralar ve minimum komut sayısına ulaşmayı hedefler.
 
 ---
 
 ## 🧠 Öğrenilen Temel Konular
 
-| Konu                                  | Açıklama                                                                              |
-| ------------------------------------- | ------------------------------------------------------------------------------------- |
-| 🔁 **Yığın (Stack) Operasyonları**    | `push`, `swap`, `rotate`, `reverse rotate` komutlarının kullanımı ve kombinasyonları. |
-| ✂️ **Parçalama & Bölme Stratejileri** | Diziyi kısmi alt dizilere bölme (chunking) ve her parçayı ayrı ayrı sıralama.         |
-| 🧠 **Algoritma Optimizasyonu**        | Komut sayısını azaltmak için heuristikler ve durum bazlı kararlar.                    |
-| 🧮 **Kompleksite Analizi**            | Operasyon sayısı ve performans değerlendirmesi.                                       |
+| Konu                               | Açıklama                                                                              |
+| ---------------------------------- | ------------------------------------------------------------------------------------- |
+| 🔁 **Yığın (Stack) Operasyonları** | `push`, `swap`, `rotate`, `reverse rotate` komutlarının kullanımı ve kombinasyonları. |
+| ⚡ **QuickSort Yaklaşımı**          | Pivot temelli bölme stratejisi ile verimli sıralama.                                  |
+| 🧠 **Algoritma Optimizasyonu**     | Komut sayısını azaltmak için pivot seçimi ve pozisyonlama stratejileri.               |
+| 🧮 **Kompleksite Analizi**         | Ortalama durumda (O(n \log n)) hedefli sıralama yapısı.                               |
 
 ---
 
@@ -86,41 +86,37 @@ Program, komut satırından tamsayı argümanları alır.
 
 ---
 
-## 🧭 Kullanılan Strateji (Özet)
+## 🧭 Kullanılan Strateji: QuickSort Tabanlı Yaklaşım
 
 1. **Girdi Doğrulama:** Tekrar eden veya sayısal olmayan girişlerin kontrolü.
 2. **Normalizasyon:** Büyük sayıları indekslere dönüştürme (sıralamayı daha küçük aralıklarda çalıştırmak için).
-3. **Böl ve Fethet (Chunking):** Listeyi uygun büyüklükte parçalara (chunk) bölme.
-4. **Hedefe Taşıma:** Her chunk içindeki elemanları stack B'ye verimli rotasyonlarla gönderme.
-5. **Geri Yerleştirme:** B'den A'ya en uygun sırayla `pa` komutları ile geri alma.
-6. **Son Temizleme:** Küçük n için özel durumlar (3 veya 5 eleman için optimal kısa çözüm).
+3. **Pivot Seçimi:** Dizinin ortasındaki veya medyan değeri pivot olarak belirleme.
+4. **Bölme:** Pivot’tan küçük değerleri stack B’ye gönderme, büyükleri A’da tutma.
+5. **Özyineleme (Recursion):** Her iki alt kümede sıralamayı tekrarlama.
+6. **Birleştirme:** Stack B’deki elemanları doğru sırayla `pa` komutlarıyla geri alma.
 
 ---
 
-## 📈 Örnek Algoritma: 3 Eleman İçin Optimal Yaklaşım
+## 📈 Örnek Kod: QuickSort Uygulaması
 
 ```c
-/* 42 "norm" kurallarına uygun, açıklayıcı ve kısa */
-void sort_three(t_stack *a)
+/* 42 norm kurallarına uygun örnek quicksort tabanlı sıralama */
+void quicksort_a(t_stack *a, t_stack *b, int size)
 {
-    if (is_sorted(a))
+    int pivot;
+    int pushed;
+
+    if (size <= 3)
+    {
+        sort_small(a, size);
         return;
-    if (a->top->value > a->top->next->value && a->top->value < a->bottom->value)
-        sa(a);
-    else if (a->top->value > a->top->next->value && a->top->next->value > a->bottom->value)
-    {
-        sa(a);
-        rra(a);
     }
-    else if (a->top->value > a->bottom->value && a->top->next->value < a->bottom->value)
-        ra(a);
-    else if (a->top->value < a->top->next->value && a->top->value > a->bottom->value)
-        rra(a);
-    else
-    {
-        sa(a);
-        ra(a);
-    }
+    pivot = get_pivot(a, size);
+    pushed = push_lower_than_pivot(a, b, pivot, size);
+    quicksort_a(a, b, size - pushed);
+    quicksort_b(a, b, pushed);
+    while (pushed-- > 0)
+        pa(a, b);
 }
 ```
 
@@ -135,10 +131,11 @@ PushSwap/
 ├── srcs/
 │   ├── main.c
 │   ├── parse_args.c
-│   ├── ops.c
-│   ├── sort_small.c
-│   ├── sort_chunks.c
-│   └── utils.c
+│   ├── quicksort_a.c
+│   ├── quicksort_b.c
+│   ├── operations.c
+│   ├── utils.c
+│   └── stack.c
 ├── Makefile
 └── README.md
 ```
